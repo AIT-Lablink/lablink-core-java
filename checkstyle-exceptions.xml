@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN" "https://checkstyle.org/dtds/suppressions_1_0.dtd">
+<suppressions>
+  <!-- Suppress warnings caused by code generated with the protocol buffer compiler. -->
+  <suppress files="LlJoinLeaveMessage.java"
+            checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+  <suppress files="LlSyncDeMessage.java"
+            checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+  <suppress files="LlSyncInviteMessage.java"
+            checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+  <suppress files="LlSyncMessage.java"
+            checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+  <suppress files="LlUpdateMessage.java"
+            checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+</suppressions>
