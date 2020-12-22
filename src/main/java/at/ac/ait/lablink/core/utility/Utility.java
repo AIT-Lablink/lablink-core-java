@@ -307,7 +307,7 @@ public class Utility {
 
   public static String INFO_COPYRIGHTS = "Copyright © 2020";
 
-  public static String INFO_WEBSITE = "https://www.ait.ac.at";
+  public static String INFO_WEBSITE = "https://ait-lablink.readthedocs.io/";
 
   public static String INFO_ORGANIZATION = "AIT Austrian Institute of Technology GmbH";
 
