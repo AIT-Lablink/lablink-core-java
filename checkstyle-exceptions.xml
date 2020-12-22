@@ -12,4 +12,8 @@
             checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
   <suppress files="LlUpdateMessage.java"
             checks="IllegalTokenText|MemberName|LocalVariableName|CatchParameterName|VariableDeclarationUsageDistance"/>
+
+  <!-- Relax a few checkstyle rules for tests. -->
+  <suppress files="[/\\]src[/\\]test[/\\]"
+            checks="AbbreviationAsWordInName|JavadocMethod|OneTopLevelClass"/>
 </suppressions>
