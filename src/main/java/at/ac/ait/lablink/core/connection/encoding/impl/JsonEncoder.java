@@ -6,7 +6,7 @@
 package at.ac.ait.lablink.core.connection.encoding.impl;
 
 import at.ac.ait.lablink.core.connection.encoding.EncoderBase;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreEncoderRuntimeException;
 
 import com.eclipsesource.json.Json;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Specific JSON encoder.
  *
- * <p>IEncoder that implements the encodes the internal Lablink encodeables objects into a
+ * <p>IEncoder that implements the encodes the internal Lablink encodables objects into a
  * JSON string representation.
  */
 public class JsonEncoder extends EncoderBase {
@@ -62,8 +62,8 @@ public class JsonEncoder extends EncoderBase {
    * <ul>
    *
    * <li><b>encoding.maxStackSize</b> (200, int): Maximum allowed size of encoder stack. The
-   * stack will be used for the creation of nested {@link IEncodeable} objects or for lists of
-   * {@link IEncodeable} objects.</li>
+   * stack will be used for the creation of nested {@link IEncodable} objects or for lists of
+   * {@link IEncodable} objects.</li>
    * </ul>
    *
    * @param config Configuration object that is used to parametrize the JsonEncoder.
@@ -82,7 +82,7 @@ public class JsonEncoder extends EncoderBase {
   }
 
   @Override
-  protected void encodeElement(IEncodeable value) {
+  protected void encodeElement(IEncodable value) {
     logger.trace("Start encoding a object with {}", value);
 
     initEncoder();
@@ -205,7 +205,7 @@ public class JsonEncoder extends EncoderBase {
   }
 
   @Override
-  public void putEncodeable(String key, IEncodeable value) {
+  public void putEncodable(String key, IEncodable value) {
 
     logger.trace("Add object to JSON encoder: {} ({})",key, value);
     checkJsonObjectKey(key);
@@ -222,7 +222,7 @@ public class JsonEncoder extends EncoderBase {
   }
 
   @Override
-  public void putEncodeableList(String key, List<? extends IEncodeable> values) {
+  public void putEncodableList(String key, List<? extends IEncodable> values) {
 
     logger.trace("Add list to JSON encoder: {} ({})",key, values);
     checkJsonObjectKey(key);
@@ -242,12 +242,12 @@ public class JsonEncoder extends EncoderBase {
    *
    * @param values array to be added
    * @throws LlCoreEncoderRuntimeException if the maximum stack size exceeds. Therefore
-   *                                            decrease your array list of {@link IEncodeable}
+   *                                            decrease your array list of {@link IEncodable}
    *                                            objects or overwrite the default stack size
    *                                            value.
    */
-  private void addArray(List<? extends IEncodeable> values) {
-    for (IEncodeable value : values) {
+  private void addArray(List<? extends IEncodable> values) {
+    for (IEncodable value : values) {
       checkStackSize();
       checkValueIsNull(value);
       JsonObject actEncoderObject = Json.object();
@@ -311,7 +311,7 @@ public class JsonEncoder extends EncoderBase {
    * Check if the maximum stack size is exceeded.
    *
    * <p>Every encoded object is stored in the stack. A recursion in the encoded object can exceed
-   * the maximum stack size. Also a high number of nested encodeable objects can cause the reaching
+   * the maximum stack size. Also a high number of nested encodable objects can cause the reaching
    * of the maximum stack size. Therefore increase the default value of the allowed stack size or
    * decrease your nested objects.
    *

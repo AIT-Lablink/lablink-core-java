@@ -3,7 +3,7 @@
 // Distributed under the terms of the Modified BSD License.
 //
 /**
- * Package for encodeable object classes.
+ * Package for encodable object classes.
  *
  * <p>The package contains common used header and payloads objects that are used for transmission
  * during the communication.
@@ -12,4 +12,4 @@
  * for correct implementation.
  */
 
-package at.ac.ait.lablink.core.connection.encoding.encodeables;
+package at.ac.ait.lablink.core.connection.encoding.encodables;

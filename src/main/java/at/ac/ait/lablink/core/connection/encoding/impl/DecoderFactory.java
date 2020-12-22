@@ -19,7 +19,7 @@ public class DecoderFactory {
 
   private final EDecoderType defaultDecoder;
   private final Configuration config;
-  private EncodeableFactoryManagerImpl encodeableFactoryManager;
+  private EncodableFactoryManagerImpl encodableFactoryManager;
 
   private Map<EDecoderType, DecoderBase> decoders = new HashMap<EDecoderType, DecoderBase>();
 
@@ -61,7 +61,7 @@ public class DecoderFactory {
         decoder = new JsonDecoder(config);
     }
 
-    decoder.setEncodeableFactoryManager(this.encodeableFactoryManager);
+    decoder.setEncodableFactoryManager(this.encodableFactoryManager);
 
     this.decoders.put(key, decoder);
     return decoder;
@@ -87,13 +87,13 @@ public class DecoderFactory {
   }
 
   /**
-   * Set the factory manager for encodeable objects that will be redirect to the generated
+   * Set the factory manager for encodable objects that will be redirect to the generated
    * decoder objects.
    *
-   * @param encodeableFactoryManager that should be rediredt to the generated decoder.
+   * @param encodableFactoryManager that should be rediredt to the generated decoder.
    */
-  public void setEncodeableFactoryManager(EncodeableFactoryManagerImpl encodeableFactoryManager) {
-    this.encodeableFactoryManager = encodeableFactoryManager;
+  public void setEncodableFactoryManager(EncodableFactoryManagerImpl encodableFactoryManager) {
+    this.encodableFactoryManager = encodableFactoryManager;
   }
 
 

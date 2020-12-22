@@ -19,7 +19,7 @@ public interface IMqttReceiverCallback {
    * <p>The method should handle the received MQTT raw message.
    *
    * @param topic   full MQTT topic of the received message
-   * @param mqttPayload encodeables of the received message
+   * @param mqttPayload encodables of the received message
    */
   void handleRawMqttMessage(String topic, byte[] mqttPayload);
 

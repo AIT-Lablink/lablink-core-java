@@ -23,7 +23,7 @@ public interface IRpcRequestHandler {
    * @param subject  Method name, which will be used to identify the request. It will be
    *                 merged with the client and group ID of the connection core.
    * @param callback Handler that will be registered. The requestHandler handles the
-   *                 incoming request and generates the encodeables for the response message,
+   *                 incoming request and generates the encodables for the response message,
    *                 which will be sent back to the requester
    * @throws LlCoreRuntimeException if an error during registering a new handler
    *                                     occurs.
@@ -38,7 +38,7 @@ public interface IRpcRequestHandler {
    * @param subject  Name of the handler, which is defined by the registration
    *                 {@link #registerRequestHandler(RpcSubject, IRpcRequestCallback)}
    * @param callback Handler that will be unregistered. The requestHandler handles the
-   *                 incoming request and generates the encodeables for the response message,
+   *                 incoming request and generates the encodables for the response message,
    *                 which will be sent back to the requester
    * @throws LlCoreRuntimeException if an error during unregistering a handler occurs.
    */

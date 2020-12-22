@@ -3,11 +3,11 @@
 // Distributed under the terms of the Modified BSD License.
 //
 
-package at.ac.ait.lablink.core.connection.encoding.encodeables;
+package at.ac.ait.lablink.core.connection.encoding.encodables;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeableFactory;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodableFactory;
 import at.ac.ait.lablink.core.connection.encoding.IEncoder;
 import at.ac.ait.lablink.core.connection.ex.LlCoreDecoderRuntimeException;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
@@ -23,18 +23,18 @@ import java.util.List;
  * Class that represents a packet for the Lablink communication.
  *
  * <p>The packet is the top-level container for the communication. It contains a header field
- * that contains information for the transmission and one or more encodeables containers
+ * that contains information for the transmission and one or more encodables containers
  */
-public class Packet implements IEncodeable {
+public class Packet implements IEncodable {
 
   /**
    * Get a type string of the class.
    *
    * <p><b>This static method must be implemented by every subclass.</b>
    *
-   * <p>Every class that is encodeable and is used by a decoder must have a unique string that
+   * <p>Every class that is encodable and is used by a decoder must have a unique string that
    * identifies this class. This type string will be transmitted during the communication and will
-   * be used by a decoder for creating an empty object of the encodeable class.
+   * be used by a decoder for creating an empty object of the encodable class.
    *
    * @return an unique type string of the class
    */
@@ -47,16 +47,16 @@ public class Packet implements IEncodeable {
    *
    * <p><b>This static method must be implemented by every subclass.</b>
    *
-   * <p>Every class that is encodeable and is used by a decoder must have a unique factory object
+   * <p>Every class that is encodable and is used by a decoder must have a unique factory object
    * to create empty objects of the class. This factory method will be used by the decoder to
    * create a fresh object that can be filled in with the decoded values.
    *
-   * @return A factory object for creating encodeable classes
+   * @return A factory object for creating encodable classes
    */
-  public static IEncodeableFactory getEncodeableFactory() {
-    return new IEncodeableFactory() {
+  public static IEncodableFactory getEncodableFactory() {
+    return new IEncodableFactory() {
       @Override
-      public IEncodeable createEncodeableObject() {
+      public IEncodable createEncodableObject() {
         return new Packet();
       }
     };
@@ -100,14 +100,14 @@ public class Packet implements IEncodeable {
 
   @Override
   public void encode(IEncoder encoder) {
-    encoder.putEncodeable("header", header);
-    encoder.putEncodeableList("payload", payloads);
+    encoder.putEncodable("header", header);
+    encoder.putEncodableList("payload", payloads);
   }
 
   @Override
   public void decode(IDecoder decoder) {
 
-    IEncodeable header = decoder.getEncodeable("header");
+    IEncodable header = decoder.getEncodable("header");
     if (header instanceof Header) {
       this.header = (Header) header;
     } else {
@@ -115,15 +115,15 @@ public class Packet implements IEncodeable {
           "Decoded element (" + header.getClass() + ") isn't a header element.");
     }
 
-    List<? extends IEncodeable> encodeables = decoder.getEncodeables("payload");
+    List<? extends IEncodable> encodables = decoder.getEncodables("payload");
 
     List<IPayload> listBuilder = new ArrayList<IPayload>();
-    for (IEncodeable encodeable : encodeables) {
-      if (encodeable instanceof IPayload) {
-        listBuilder.add((IPayload) encodeable);
+    for (IEncodable encodable : encodables) {
+      if (encodable instanceof IPayload) {
+        listBuilder.add((IPayload) encodable);
       } else {
         throw new LlCoreDecoderRuntimeException(
-            "Decoded element (" + encodeable.getClass() + ") isn't a encodeables element.");
+            "Decoded element (" + encodable.getClass() + ") isn't a encodables element.");
       }
     }
     payloads = listBuilder;

@@ -5,10 +5,10 @@
 
 package at.ac.ait.lablink.core.connection.dispatching;
 
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Packet;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Packet;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
 
@@ -39,7 +39,7 @@ public abstract class CallbackExecutor {
   protected List<ErrorMessage> errors;
 
   /* Temporary storage for read payloads objects. */
-  private IEncodeable decodedPacket;
+  private IEncodable decodedPacket;
 
   protected List<IPayload> payloads = new ArrayList<IPayload>();
   protected Header header;
@@ -52,7 +52,7 @@ public abstract class CallbackExecutor {
    * @param errors        Occurred errors during dispatching and decoding.
    * @param callback      User's callback method that is used for error handling.
    */
-  public CallbackExecutor(IEncodeable decodedPacket, List<ErrorMessage> errors,
+  public CallbackExecutor(IEncodable decodedPacket, List<ErrorMessage> errors,
                           ICallbackBase callback) {
 
     if (errors != null) {

@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.connection;
 
 import at.ac.ait.lablink.core.connection.IConnectionHandler;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeableFactoryManager;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.IEncodableFactoryManager;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.messaging.IMessagePublishHandler;
 import at.ac.ait.lablink.core.connection.messaging.IMessageReceiveHandler;
 import at.ac.ait.lablink.core.connection.rpc.reply.IRpcReplyHandler;
@@ -30,7 +30,7 @@ import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
 
 public interface ILlConnection
     extends IConnectionHandler, IMessageReceiveHandler, IMessagePublishHandler, IRpcRequestHandler,
-    IRpcReplyHandler, IEncodeableFactoryManager {
+    IRpcReplyHandler, IEncodableFactoryManager {
 
   /**
    * Send an asynchronous message to the connection system. This method is used to send updates,

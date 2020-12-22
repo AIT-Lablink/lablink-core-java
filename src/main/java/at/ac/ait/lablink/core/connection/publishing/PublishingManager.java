@@ -6,7 +6,7 @@
 package at.ac.ait.lablink.core.connection.publishing;
 
 import at.ac.ait.lablink.core.connection.encoding.EncoderBase;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Packet;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Packet;
 import at.ac.ait.lablink.core.connection.encoding.impl.EncoderFactory;
 import at.ac.ait.lablink.core.connection.ex.LowLevelCommRuntimeException;
 import at.ac.ait.lablink.core.connection.mqtt.IMqttPublisher;

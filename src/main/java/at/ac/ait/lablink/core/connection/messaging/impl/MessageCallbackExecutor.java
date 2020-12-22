@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.connection.messaging.impl;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.messaging.IMessageCallback;
 import at.ac.ait.lablink.core.connection.messaging.MsgHeader;
 
@@ -34,7 +34,7 @@ public class MessageCallbackExecutor extends CallbackExecutor {
    * @param errors Occurred errors during dispatching and decoding.
    * @param msgCallback User's callback method that is used for message handling.
    */
-  public MessageCallbackExecutor(IEncodeable decodedPacket, List<ErrorMessage> errors,
+  public MessageCallbackExecutor(IEncodable decodedPacket, List<ErrorMessage> errors,
                                  IMessageCallback msgCallback) {
     super(decodedPacket, errors, msgCallback);
 

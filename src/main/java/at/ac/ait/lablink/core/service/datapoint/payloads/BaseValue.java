@@ -7,7 +7,7 @@ package at.ac.ait.lablink.core.service.datapoint.payloads;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
 import at.ac.ait.lablink.core.connection.encoding.IEncoder;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.PayloadBase;
+import at.ac.ait.lablink.core.connection.encoding.encodables.PayloadBase;
 
 /**
  * A simple value format containing a boolean.

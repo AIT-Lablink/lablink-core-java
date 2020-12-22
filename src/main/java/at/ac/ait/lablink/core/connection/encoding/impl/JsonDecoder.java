@@ -6,7 +6,7 @@
 package at.ac.ait.lablink.core.connection.encoding.impl;
 
 import at.ac.ait.lablink.core.connection.encoding.DecoderBase;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreDecoderRuntimeException;
 import at.ac.ait.lablink.core.connection.ex.LlCoreEncoderRuntimeException;
 
@@ -32,17 +32,17 @@ import java.util.List;
 /**
  * Implementation of a Json IDecoder.
  *
- * <p>The Json decoder will decode a JSON string into an IEncodeable Java representation.
+ * <p>The Json decoder will decode a JSON string into an IEncodable Java representation.
  */
 public class JsonDecoder extends DecoderBase {
 
   private static final Logger logger = LoggerFactory.getLogger(JsonDecoder.class);
 
-  /** Stack for handling recursion of IEncodeable objects. **/
+  /** Stack for handling recursion of IEncodable objects. **/
   private final Deque<JsonValue> decoderStack = new ArrayDeque<JsonValue>();
 
   /** Top level element of the the decoded packet. **/
-  private IEncodeable firstElement;
+  private IEncodable firstElement;
 
   private final int defaultMaxStackSize = 200;
 
@@ -67,8 +67,8 @@ public class JsonDecoder extends DecoderBase {
    * <ul>
    *
    * <li><b>encoding.maxStackSize</b> (200, int): Maximum allowed size of decoder stack. The
-   * stack will be used for the creation of nested {@link IEncodeable} objects or for lists of
-   * {@link IEncodeable} objects.</li>
+   * stack will be used for the creation of nested {@link IEncodable} objects or for lists of
+   * {@link IEncodable} objects.</li>
    * </ul>
    *
    * @param config Configuration object that is used to parametrize the JsonDecoder.
@@ -87,7 +87,7 @@ public class JsonDecoder extends DecoderBase {
   }
 
   @Override
-  protected IEncodeable getDecodedElement() {
+  protected IEncodable getDecodedElement() {
 
     if (decoderStack.size() > 0) {
       throw new LlCoreDecoderRuntimeException("Stack size (" + decoderStack.size() + ") > 0. "
@@ -110,7 +110,7 @@ public class JsonDecoder extends DecoderBase {
     }
 
     String objectType = ((JsonObject) value).get("$type").asString();
-    firstElement = encodeableFactoryManager.createEncodeable(objectType);
+    firstElement = encodableFactoryManager.createEncodable(objectType);
 
     firstElement.decode(this);
     firstElement.decodingCompleted();
@@ -148,7 +148,7 @@ public class JsonDecoder extends DecoderBase {
   public String getString(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return "";
     } else {
       return value.asString();
@@ -159,7 +159,7 @@ public class JsonDecoder extends DecoderBase {
   public List<String> getStrings(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return Collections.emptyList();
     }
 
@@ -168,7 +168,7 @@ public class JsonDecoder extends DecoderBase {
 
     for (JsonValue val : array) {
       if (val.isNull()) {
-        logger.warn("IEncodeable Element  in list '{}' is null ({})", key, array);
+        logger.warn("IEncodable Element  in list '{}' is null ({})", key, array);
         retList.add("");
       } else {
         retList.add(val.asString());
@@ -181,7 +181,7 @@ public class JsonDecoder extends DecoderBase {
   public float getFloat(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return 0.0f;
     } else {
       return value.asFloat();
@@ -192,7 +192,7 @@ public class JsonDecoder extends DecoderBase {
   public double getDouble(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return 0.0;
     } else {
       return value.asDouble();
@@ -203,7 +203,7 @@ public class JsonDecoder extends DecoderBase {
   public boolean getBoolean(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return false;
     } else {
       return value.asBoolean();
@@ -214,7 +214,7 @@ public class JsonDecoder extends DecoderBase {
   public int getInt(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return 0;
     } else {
       return value.asInt();
@@ -225,7 +225,7 @@ public class JsonDecoder extends DecoderBase {
   public long getLong(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return 0;
     } else {
       return value.asLong();
@@ -236,7 +236,7 @@ public class JsonDecoder extends DecoderBase {
   public byte[] getBlob(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return new byte[0];
     } else {
       String str = getLastJsonValue(key).asString();
@@ -245,11 +245,11 @@ public class JsonDecoder extends DecoderBase {
   }
 
   @Override
-  public IEncodeable getEncodeable(String key) {
+  public IEncodable getEncodable(String key) {
     JsonObject object = getLastJsonValue(key).asObject();
 
     String objectType = object.get("$type").asString();
-    IEncodeable element = encodeableFactoryManager.createEncodeable(objectType);
+    IEncodable element = encodableFactoryManager.createEncodable(objectType);
 
     checkStackSize();
     decoderStack.addFirst(object);
@@ -260,29 +260,29 @@ public class JsonDecoder extends DecoderBase {
   }
 
   @Override
-  public List<? extends IEncodeable> getEncodeables(String key) {
+  public List<? extends IEncodable> getEncodables(String key) {
     JsonValue value = getLastJsonValue(key);
     if (value.isNull()) {
-      logger.warn("IEncodeable Element '{}' is null ({})", key, value);
+      logger.warn("IEncodable Element '{}' is null ({})", key, value);
       return Collections.emptyList();
     }
 
     JsonArray array = value.asArray();
 
-    List<IEncodeable> retList = new ArrayList<IEncodeable>();
+    List<IEncodable> retList = new ArrayList<IEncodable>();
 
     for (JsonValue val : array) {
       if (!val.isObject()) {
         throw new LlCoreDecoderRuntimeException(
-            "IEncodeable can't be decoded. " + "The element isn't a JSON object.");
+            "IEncodable can't be decoded. " + "The element isn't a JSON object.");
       }
       if (val.isNull()) {
-        logger.warn("IEncodeable Element  in list '{}' is null ({})", key, array);
+        logger.warn("IEncodable Element  in list '{}' is null ({})", key, array);
       } else {
         JsonObject object = (JsonObject) val;
 
         String objectType = object.get("$type").asString();
-        IEncodeable element = encodeableFactoryManager.createEncodeable(objectType);
+        IEncodable element = encodableFactoryManager.createEncodable(objectType);
 
         checkStackSize();
         decoderStack.addFirst(object);
@@ -299,7 +299,7 @@ public class JsonDecoder extends DecoderBase {
    * Check if the maximum stack size is exceeded.
    *
    * <p>Every encoded object is stored in the stack. A recursion in the encoded object can exceed
-   * the maximum stack size. Also a high number of nested encodeable objects can cause the reaching
+   * the maximum stack size. Also a high number of nested encodable objects can cause the reaching
    * of the maximum stack size. Therefore increase the default value of the allowed stack size or
    * decrease your nested objects.
    *

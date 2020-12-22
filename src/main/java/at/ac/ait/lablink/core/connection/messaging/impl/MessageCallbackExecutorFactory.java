@@ -7,7 +7,7 @@ package at.ac.ait.lablink.core.connection.messaging.impl;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
 import at.ac.ait.lablink.core.connection.dispatching.ICallbackExecutorFactory;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.messaging.IMessageCallback;
 import at.ac.ait.lablink.core.connection.messaging.MsgHeader;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
@@ -37,7 +37,7 @@ public class MessageCallbackExecutorFactory implements ICallbackExecutorFactory 
   }
 
   @Override
-  public CallbackExecutor createCallbackExecutor(IEncodeable decoded, List<ErrorMessage> errors) {
+  public CallbackExecutor createCallbackExecutor(IEncodable decoded, List<ErrorMessage> errors) {
     return new MessageCallbackExecutor(decoded, errors, messageCallback);
   }
 

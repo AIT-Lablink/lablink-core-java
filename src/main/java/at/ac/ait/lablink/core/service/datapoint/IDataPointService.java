@@ -5,7 +5,7 @@
 
 package at.ac.ait.lablink.core.service.datapoint;
 
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.service.datapoint.payloads.ISimpleValue;
 import at.ac.ait.lablink.core.service.sync.consumer.ISyncConsumer;
 

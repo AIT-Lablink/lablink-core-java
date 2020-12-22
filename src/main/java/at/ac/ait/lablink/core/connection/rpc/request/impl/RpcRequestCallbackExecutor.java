@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.connection.rpc.request.impl;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.rpc.RpcHeader;
 import at.ac.ait.lablink.core.connection.rpc.request.IRpcRequestCallback;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
@@ -36,7 +36,7 @@ public class RpcRequestCallbackExecutor extends CallbackExecutor {
    * @param rpcRequestCallback User's callback method that is used for message handling.
    * @param rpcReplyPublisher  Publisher that will be used to send the reply message.
    */
-  public RpcRequestCallbackExecutor(IEncodeable decodedPacket, List<ErrorMessage> errors,
+  public RpcRequestCallbackExecutor(IEncodable decodedPacket, List<ErrorMessage> errors,
                                     IRpcRequestCallback rpcRequestCallback,
                                     RpcReplyPublisher rpcReplyPublisher) {
     super(decodedPacket, errors, rpcRequestCallback);

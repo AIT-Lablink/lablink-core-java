@@ -11,12 +11,12 @@ import at.ac.ait.lablink.core.connection.ILlConnection;
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutorManager;
 import at.ac.ait.lablink.core.connection.dispatching.IRootDispatcher;
 import at.ac.ait.lablink.core.connection.dispatching.impl.RootDispatchingTreeNode;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeableFactory;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Packet;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodableFactory;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Packet;
 import at.ac.ait.lablink.core.connection.encoding.impl.DecoderFactory;
-import at.ac.ait.lablink.core.connection.encoding.impl.EncodeableFactoryManagerImpl;
+import at.ac.ait.lablink.core.connection.encoding.impl.EncodableFactoryManagerImpl;
 import at.ac.ait.lablink.core.connection.encoding.impl.EncoderFactory;
 import at.ac.ait.lablink.core.connection.messaging.IMessageCallback;
 import at.ac.ait.lablink.core.connection.messaging.IMessagePublishHandler;
@@ -68,7 +68,7 @@ public class LlConnectionController implements ILlConnection {
   private IMessagePublishHandler messagePublishHandler;
   private IRpcRequestHandler rpcRequestHandler;
   private IRpcReplyHandler rpcReplyHandler;
-  private EncodeableFactoryManagerImpl encodeableFactoryManager;
+  private EncodableFactoryManagerImpl encodableFactoryManager;
 
   private EncoderFactory encoderFactory;
   private DecoderFactory decoderFactory;
@@ -152,17 +152,17 @@ public class LlConnectionController implements ILlConnection {
     decoderFactory = new DecoderFactory(DecoderFactory.EDecoderType.JSON, config);
     //TODO decoder encoder factory register instead of implicit create objects
 
-    encodeableFactoryManager = new EncodeableFactoryManagerImpl();
-    encodeableFactoryManager.registerEncodeableFactory(Packet.class);
-    encodeableFactoryManager.registerEncodeableFactory(RpcHeader.class);
-    encodeableFactoryManager.registerEncodeableFactory(MsgHeader.class);
+    encodableFactoryManager = new EncodableFactoryManagerImpl();
+    encodableFactoryManager.registerEncodableFactory(Packet.class);
+    encodableFactoryManager.registerEncodableFactory(RpcHeader.class);
+    encodableFactoryManager.registerEncodableFactory(MsgHeader.class);
 
-    encodeableFactoryManager.registerEncodeableFactory(ErrorMessage.class);
-    encodeableFactoryManager.registerEncodeableFactory(StatusMessage.class);
-    encodeableFactoryManager.registerEncodeableFactory(LogMessage.class);
-    encodeableFactoryManager.registerEncodeableFactory(StringMessage.class);
+    encodableFactoryManager.registerEncodableFactory(ErrorMessage.class);
+    encodableFactoryManager.registerEncodableFactory(StatusMessage.class);
+    encodableFactoryManager.registerEncodableFactory(LogMessage.class);
+    encodableFactoryManager.registerEncodableFactory(StringMessage.class);
 
-    decoderFactory.setEncodeableFactoryManager(encodeableFactoryManager);
+    decoderFactory.setEncodableFactoryManager(encodableFactoryManager);
 
     rootDispatchingTreeNode = new RootDispatchingTreeNode(clientId.getPrefix().get(0));
     rootDispatchingTreeNode.setMqttSubscriber(mqttClient);
@@ -278,32 +278,32 @@ public class LlConnectionController implements ILlConnection {
   }
 
   @Override
-  public void registerEncodeableFactory(String type, IEncodeableFactory encodeableFactory) {
-    encodeableFactoryManager.registerEncodeableFactory(type, encodeableFactory);
+  public void registerEncodableFactory(String type, IEncodableFactory encodableFactory) {
+    encodableFactoryManager.registerEncodableFactory(type, encodableFactory);
   }
 
   @Override
-  public void registerEncodeableFactory(String type, Class<? extends IEncodeable> encodeableClass) {
-    encodeableFactoryManager.registerEncodeableFactory(type, encodeableClass);
+  public void registerEncodableFactory(String type, Class<? extends IEncodable> encodableClass) {
+    encodableFactoryManager.registerEncodableFactory(type, encodableClass);
   }
 
   @Override
-  public void registerEncodeableFactory(Class<? extends IEncodeable> encodeableClass) {
-    encodeableFactoryManager.registerEncodeableFactory(encodeableClass);
+  public void registerEncodableFactory(Class<? extends IEncodable> encodableClass) {
+    encodableFactoryManager.registerEncodableFactory(encodableClass);
   }
 
   @Override
-  public void unregisterEncodeableFactory(String type) {
-    encodeableFactoryManager.unregisterEncodeableFactory(type);
+  public void unregisterEncodableFactory(String type) {
+    encodableFactoryManager.unregisterEncodableFactory(type);
   }
 
   @Override
-  public void unregisterEncodeableFactory(Class<? extends IEncodeable> encodeableClass) {
-    encodeableFactoryManager.unregisterEncodeableFactory(encodeableClass);
+  public void unregisterEncodableFactory(Class<? extends IEncodable> encodableClass) {
+    encodableFactoryManager.unregisterEncodableFactory(encodableClass);
   }
   
   @Override
-  public IEncodeable createEncodeable(String type) {
-    return encodeableFactoryManager.createEncodeable(type);
+  public IEncodable createEncodable(String type) {
+    return encodableFactoryManager.createEncodable(type);
   }
 }

@@ -10,7 +10,7 @@ import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutorManager;
 import at.ac.ait.lablink.core.connection.dispatching.ICallbackExecutorFactory;
 import at.ac.ait.lablink.core.connection.dispatching.IDispatcherCallback;
 import at.ac.ait.lablink.core.connection.encoding.DecoderBase;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreDecoderRuntimeException;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
@@ -84,7 +84,7 @@ public class DispatcherCallbackImpl implements IDispatcherCallback {
 
     clearElements();
 
-    IEncodeable decoded = decodeIncomingPacket(payload);
+    IEncodable decoded = decodeIncomingPacket(payload);
 
     try {
       CallbackExecutor
@@ -102,9 +102,9 @@ public class DispatcherCallbackImpl implements IDispatcherCallback {
    * @param payload byte array with payloads stream to be decoded.
    * @return The encoded and validated packet
    */
-  private IEncodeable decodeIncomingPacket(byte[] payload) {
+  private IEncodable decodeIncomingPacket(byte[] payload) {
 
-    IEncodeable decoded = null;
+    IEncodable decoded = null;
     try {
       decoded = decoder.processDecoding(payload);
       decoded.validate();

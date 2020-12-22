@@ -5,8 +5,8 @@
 
 package at.ac.ait.lablink.core.service.datapoint.consumer;
 
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.messaging.IMessageCallback;
 import at.ac.ait.lablink.core.connection.messaging.MsgHeader;
 import at.ac.ait.lablink.core.connection.rpc.IRpcRequester;

@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.connection.messaging.impl;
 
 import at.ac.ait.lablink.core.connection.ClientIdentifier;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Packet;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Packet;
 import at.ac.ait.lablink.core.connection.messaging.IMessagePublishHandler;
 import at.ac.ait.lablink.core.connection.messaging.MsgHeader;
 import at.ac.ait.lablink.core.connection.publishing.PublishingManager;

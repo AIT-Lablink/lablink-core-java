@@ -11,7 +11,7 @@ package at.ac.ait.lablink.core.connection.encoding;
  * <p>Every class, which should be sent or received by the Lablink connection must implement this
  * interface. The interface is used by the en-/decoder to serialize the class.
  */
-public interface IEncodeable {
+public interface IEncodable {
 
   /**
    * Implementation of the encoding of the class.
@@ -55,9 +55,9 @@ public interface IEncodeable {
   void decodingCompleted();
 
   /**
-   * Validation method for an IEncodeable object.
+   * Validation method for an IEncodable object.
    *
-   * <p>Every encodeable object should have such a method to validate all of its containing
+   * <p>Every encodable object should have such a method to validate all of its containing
    * elements. The method will be used before publishing a packet for allowing feedback of
    * correct objects to the user.
    *

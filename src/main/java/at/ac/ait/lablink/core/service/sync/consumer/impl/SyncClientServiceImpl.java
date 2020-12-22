@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.service.sync.consumer.impl;
 
 import at.ac.ait.lablink.core.connection.ILlConnection;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.messaging.IMessageCallback;
 import at.ac.ait.lablink.core.connection.messaging.MsgHeader;
 import at.ac.ait.lablink.core.connection.rpc.IRpcRequester;
@@ -90,10 +90,10 @@ public class SyncClientServiceImpl implements ISyncClientService, Runnable {
 
     this.lablinkConnection = lablinkConnection;
 
-    lablinkConnection.registerEncodeableFactory(SyncGoRequest.class);
-    lablinkConnection.registerEncodeableFactory(SyncGoReply.class);
-    lablinkConnection.registerEncodeableFactory(SyncParamMessage.class);
-    lablinkConnection.registerEncodeableFactory(SyncClientConfigMessage.class);
+    lablinkConnection.registerEncodableFactory(SyncGoRequest.class);
+    lablinkConnection.registerEncodableFactory(SyncGoReply.class);
+    lablinkConnection.registerEncodableFactory(SyncParamMessage.class);
+    lablinkConnection.registerEncodableFactory(SyncClientConfigMessage.class);
 
     registeringTimeout = config.getLong("syncClient.registeringTimeout", 180) * 1000;
     registerHandlers();

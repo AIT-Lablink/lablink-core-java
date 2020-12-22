@@ -86,11 +86,11 @@ public class DataPointConsumerServiceImpl implements IDataPointConsumerService {
 
     this.lablinkConnection = lablinkConnection;
 
-    lablinkConnection.registerEncodeableFactory(DataPointProperties.class);
-    lablinkConnection.registerEncodeableFactory(StringValue.class);
-    lablinkConnection.registerEncodeableFactory(LongValue.class);
-    lablinkConnection.registerEncodeableFactory(DoubleValue.class);
-    lablinkConnection.registerEncodeableFactory(BooleanValue.class);
+    lablinkConnection.registerEncodableFactory(DataPointProperties.class);
+    lablinkConnection.registerEncodableFactory(StringValue.class);
+    lablinkConnection.registerEncodableFactory(LongValue.class);
+    lablinkConnection.registerEncodableFactory(DoubleValue.class);
+    lablinkConnection.registerEncodableFactory(BooleanValue.class);
 
     this.prefix = prefix;
   }

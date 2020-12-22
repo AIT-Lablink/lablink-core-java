@@ -5,7 +5,7 @@
 
 package at.ac.ait.lablink.core.connection.rpc;
 
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.topic.RpcDestination;
 import at.ac.ait.lablink.core.connection.topic.RpcSubject;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;

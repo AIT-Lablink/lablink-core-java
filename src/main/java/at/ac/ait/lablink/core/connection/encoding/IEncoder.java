@@ -11,7 +11,7 @@ import java.util.List;
  * Common IEncoder Interface.
  *
  * <p>This interface is used to add different variables to the encoder. Every method call
- * adds the variable to a encoder'S internal dictionary. The {@link IEncodeable} can be 
+ * adds the variable to a encoder'S internal dictionary. The {@link IEncodable} can be 
  * nested into the encoder. Keys for specific values must be unique and are only allowed 
  * to add once to the encoder.
  *
@@ -85,18 +85,18 @@ public interface IEncoder {
   void putBlob(String key, byte[] value);
 
   /**
-   * Put an {@link IEncodeable} object to the encoder.
+   * Put an {@link IEncodable} object to the encoder.
    *
    * @param key   for the given value
    * @param value to be added
    */
-  void putEncodeable(String key, IEncodeable value);
+  void putEncodable(String key, IEncodable value);
 
   /**
-   * Put a list of {@link IEncodeable} to the encoder.
+   * Put a list of {@link IEncodable} to the encoder.
    *
    * @param key    for the given value
    * @param values to be added
    */
-  void putEncodeableList(String key, List<? extends IEncodeable> values);
+  void putEncodableList(String key, List<? extends IEncodable> values);
 }

@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.service.datapoint.payloads;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeableFactory;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodableFactory;
 import at.ac.ait.lablink.core.connection.encoding.IEncoder;
 
 /**
@@ -20,9 +20,9 @@ public class LongValue extends BaseValue implements ISimpleValue<Long> {
    *
    * <p><b>This static method must be implemented by every subclass.</b>
    *
-   * <p>Every class that is encodeable and is used by a decoder must have a unique string that
+   * <p>Every class that is encodable and is used by a decoder must have a unique string that
    * identifies this class. This type string will be transmitted during the communication and will
-   * be used by a decoder for creating an empty object of the encodeable class.
+   * be used by a decoder for creating an empty object of the encodable class.
    *
    * @return an unique type string of the class
    */
@@ -35,16 +35,16 @@ public class LongValue extends BaseValue implements ISimpleValue<Long> {
    *
    * <p><b>This static method must be implemented by every subclass.</b>
    *
-   * <p>Every class that is encodeable and is used by a decoder must have a unique factory object
+   * <p>Every class that is encodable and is used by a decoder must have a unique factory object
    * to create empty objects of the class. This factory method will be used by the decoder to
    * create a fresh object that can be filled in with the decoded values.
    *
-   * @return A factory object for creating encodeable classes
+   * @return A factory object for creating encodable classes
    */
-  public static IEncodeableFactory getEncodeableFactory() {
-    return new IEncodeableFactory() {
+  public static IEncodableFactory getEncodableFactory() {
+    return new IEncodableFactory() {
       @Override
-      public IEncodeable createEncodeableObject() {
+      public IEncodable createEncodableObject() {
         return new LongValue();
       }
     };

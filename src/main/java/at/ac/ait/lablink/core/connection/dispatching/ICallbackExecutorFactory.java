@@ -5,7 +5,7 @@
 
 package at.ac.ait.lablink.core.connection.dispatching;
 
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
 
 import java.util.List;
@@ -25,5 +25,5 @@ public interface ICallbackExecutorFactory {
    * @param errors Generated errors by the dispatcher. This will be in most cases decoding errors,
    * @return The new created CallbackExecutor that can be handled and executed by another thread.
    */
-  CallbackExecutor createCallbackExecutor(IEncodeable decoded, List<ErrorMessage> errors);
+  CallbackExecutor createCallbackExecutor(IEncodable decoded, List<ErrorMessage> errors);
 }

@@ -7,7 +7,7 @@ package at.ac.ait.lablink.core.connection.rpc.request.impl;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
 import at.ac.ait.lablink.core.connection.dispatching.ICallbackExecutorFactory;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.rpc.request.IRpcRequestCallback;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
 
@@ -45,7 +45,7 @@ public class RpcRequestCallbackExecutorFactory implements ICallbackExecutorFacto
   }
 
   @Override
-  public CallbackExecutor createCallbackExecutor(IEncodeable decoded, List<ErrorMessage> errors) {
+  public CallbackExecutor createCallbackExecutor(IEncodable decoded, List<ErrorMessage> errors) {
     return new RpcRequestCallbackExecutor(decoded, errors, rpcRequestCallback, rpcReplyPublisher);
   }
 

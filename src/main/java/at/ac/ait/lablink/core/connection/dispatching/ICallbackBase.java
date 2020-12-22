@@ -5,7 +5,7 @@
 
 package at.ac.ait.lablink.core.connection.dispatching;
 
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
 import at.ac.ait.lablink.core.payloads.ErrorMessage;
 
 import java.util.List;

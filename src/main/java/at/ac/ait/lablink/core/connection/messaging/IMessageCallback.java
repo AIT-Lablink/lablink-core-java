@@ -6,7 +6,7 @@
 package at.ac.ait.lablink.core.connection.messaging;
 
 import at.ac.ait.lablink.core.connection.dispatching.ICallbackBase;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 
 import java.util.List;
 

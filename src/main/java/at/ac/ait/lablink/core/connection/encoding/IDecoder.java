@@ -83,18 +83,18 @@ public interface IDecoder {
   byte[] getBlob(String key);
 
   /**
-   * Read a {@link IEncodeable} from the decoder.
+   * Read a {@link IEncodable} from the decoder.
    *
    * @param key for the value to be read
    * @return value from the decoder
    */
-  IEncodeable getEncodeable(String key);
+  IEncodable getEncodable(String key);
 
   /**
-   * Read a List off {@link IEncodeable} from the decoder.
+   * Read a List off {@link IEncodable} from the decoder.
    *
    * @param key for the value to be read
    * @return value from the decoder
    */
-  List<? extends IEncodeable> getEncodeables(String key);
+  List<? extends IEncodable> getEncodables(String key);
 }

@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.connection.rpc.request.impl;
 
 import at.ac.ait.lablink.core.connection.ClientIdentifier;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Packet;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Packet;
 import at.ac.ait.lablink.core.connection.publishing.PublishingManager;
 import at.ac.ait.lablink.core.connection.rpc.RpcHeader;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;

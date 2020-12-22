@@ -5,8 +5,8 @@
 
 package at.ac.ait.lablink.core.service.datapoint;
 
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.rpc.RpcHeader;
 import at.ac.ait.lablink.core.connection.rpc.request.IRpcRequestCallback;
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;

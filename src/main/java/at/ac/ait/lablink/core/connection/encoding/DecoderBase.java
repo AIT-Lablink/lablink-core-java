@@ -6,7 +6,7 @@
 package at.ac.ait.lablink.core.connection.encoding;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
-import at.ac.ait.lablink.core.connection.encoding.IEncodeable;
+import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 
 import java.util.Arrays;
 
@@ -22,25 +22,25 @@ public abstract class DecoderBase implements IDecoder {
   private int lastSourceHash = 0;
 
   /**
-   * Factory Manager for IEncodeable object creation.
+   * Factory Manager for IEncodable object creation.
    */
-  protected IEncodeableFactoryManager encodeableFactoryManager;
+  protected IEncodableFactoryManager encodableFactoryManager;
 
   /**
-   * Set the factory manager for generating encodeable during decoding.
+   * Set the factory manager for generating encodable during decoding.
    *
-   * @param encodeableFactoryManager to be used by the decoder
+   * @param encodableFactoryManager to be used by the decoder
    */
-  public void setEncodeableFactoryManager(IEncodeableFactoryManager encodeableFactoryManager) {
-    this.encodeableFactoryManager = encodeableFactoryManager;
+  public void setEncodableFactoryManager(IEncodableFactoryManager encodableFactoryManager) {
+    this.encodableFactoryManager = encodableFactoryManager;
   }
 
   /**
    * Returns the decoded representation of the element.
    *
-   * @return encodeable object
+   * @return encodable object
    */
-  protected abstract IEncodeable getDecodedElement();
+  protected abstract IEncodable getDecodedElement();
 
   /**
    * Decode the source element.
@@ -55,7 +55,7 @@ public abstract class DecoderBase implements IDecoder {
    * @param source element to be decoded.
    * @return decoded element.
    */
-  public synchronized IEncodeable processDecoding(byte[] source) {
+  public synchronized IEncodable processDecoding(byte[] source) {
 
     /* Decode only if source array has been changed */
     int sourceHash = Arrays.hashCode(source);

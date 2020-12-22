@@ -6,8 +6,8 @@
 package at.ac.ait.lablink.core.service.datapoint.impl;
 
 import at.ac.ait.lablink.core.connection.ILlConnection;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.Header;
-import at.ac.ait.lablink.core.connection.encoding.encodeables.IPayload;
+import at.ac.ait.lablink.core.connection.encoding.encodables.Header;
+import at.ac.ait.lablink.core.connection.encoding.encodables.IPayload;
 import at.ac.ait.lablink.core.connection.rpc.RpcHeader;
 import at.ac.ait.lablink.core.connection.rpc.request.IRpcRequestCallback;
 import at.ac.ait.lablink.core.connection.topic.MsgSubject;
@@ -66,11 +66,11 @@ public class DataPointServiceImpl implements IDataPointService {
                                Configuration config) {
     this.lablinkConnection = lablinkConnection;
 
-    lablinkConnection.registerEncodeableFactory(DataPointProperties.class);
-    lablinkConnection.registerEncodeableFactory(StringValue.class);
-    lablinkConnection.registerEncodeableFactory(LongValue.class);
-    lablinkConnection.registerEncodeableFactory(DoubleValue.class);
-    lablinkConnection.registerEncodeableFactory(BooleanValue.class);
+    lablinkConnection.registerEncodableFactory(DataPointProperties.class);
+    lablinkConnection.registerEncodableFactory(StringValue.class);
+    lablinkConnection.registerEncodableFactory(LongValue.class);
+    lablinkConnection.registerEncodableFactory(DoubleValue.class);
+    lablinkConnection.registerEncodableFactory(BooleanValue.class);
 
     this.prefix = prefix;
 
