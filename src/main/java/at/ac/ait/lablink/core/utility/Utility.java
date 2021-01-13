@@ -120,7 +120,7 @@ public class Utility {
    */
   public static String parseWithEnvironmentVariable(String input) {
     String output = null;
-    String ev = StringUtils.substringBetween(input, "%", "%");
+    String ev = StringUtils.substringBetween(input, "$", "$");
     if (StringUtils.isEmpty(ev)) {
       output = input;
     } else {
@@ -128,7 +128,7 @@ public class Utility {
       if (evVal == null) {
         output = input;
       } else {
-        output = input.replace("%" + ev + "%", evVal);
+        output = input.replace("$" + ev + "$", evVal);
       }
     }
 
