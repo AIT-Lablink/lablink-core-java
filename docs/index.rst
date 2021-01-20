@@ -1,5 +1,5 @@
 *******************************************************************
-Documentation of the AIT Lablink core library (Java implementation)
+Documentation of the AIT Lablink Core library (Java implementation)
 *******************************************************************
 
 .. meta::
