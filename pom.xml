@@ -7,35 +7,51 @@
   <groupId>at.ac.ait.lablink</groupId>
   <artifactId>core</artifactId>
   <version>0.0.1</version>
-  <name>lablink-core-java</name>
-
+  <name>AIT Lablink Core</name>
+  <description>Java implementation of AIT Lablink's core application library.</description>
   <url>https://github.com/ait-lablink/lablink-core-java</url>
 
-  <organization>
+  <licenses>
+    <license>
+      <name>Lablink license</name>
+      <url>https://ait-lablink.readthedocs.io/en/latest/availability.html#lablink-license</url>
+    </license>
+  </licenses>
 
-    <name>AIT Austrian Institute of Technology</name>
-    <url>https://www.ait.ac.at</url>
+  <developers>
+    <developer>
+      <name>Jawad Kazmi</name>
+      <email>jawad.kazmi@ait.ac.at</email>
+      <organization>AIT Austrian Institute of Technology</organization>
+      <organizationUrl>https://www.ait.ac.at</organizationUrl>
+    </developer>
+    <developer>
+      <name>Edmund Widl</name>
+      <email>edmund.widl@ait.ac.at</email>
+      <organization>AIT Austrian Institute of Technology</organization>
+      <organizationUrl>https://www.ait.ac.at</organizationUrl>
+    </developer>
+  </developers>
 
-  </organization>
+  <scm>
+    <connection>scm:git:https://github.com/AIT-Lablink/lablink-core-java.git</connection>
+    <developerConnection>scm:git:https://github.com/AIT-Lablink/lablink-core-java.git</developerConnection>
+    <url>http://github.com/AIT-Lablink/lablink-core-java/tree/main</url>
+  </scm>
 
   <properties>
-
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
   </properties>
 
   <distributionManagement>
-
-    <repository>
-      <id>github</id>
-      <name>GitHub AIT-Lablink Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/ait-lablink/lablink-core-java</url>
-    </repository>
-
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <repositories>
@@ -43,7 +59,7 @@
     <!-- for moquette import -->
     <repository>
       <id>bintray</id>
-      <url>http://dl.bintray.com/andsel/maven/</url>
+      <url>https://jcenter.bintray.com</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -71,6 +87,47 @@
     </testResources>
 
     <plugins>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -196,7 +253,7 @@
             </goals>
             <configuration>
               <!-- <finalName>lablink-core</finalName> -->
-              <attach>false</attach>
+              <!-- <attach>false</attach> -->
               <!-- <appendAssemblyId>false</appendAssemblyId> -->
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -218,6 +275,7 @@
           <argLine>--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
+
     </plugins>
 
   </build>
