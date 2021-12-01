@@ -36,6 +36,7 @@ import at.ac.ait.lablink.core.service.LlService;
 import at.ac.ait.lablink.core.service.LlServicePseudo;
 import at.ac.ait.lablink.core.utility.LlAddressUtility;
 import at.ac.ait.lablink.core.utility.Utility;
+import io.prometheus.client.exporter.HTTPServer;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -51,6 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+// TODO: Auto-generated Javadoc
 /**
  * Implementation of Lablink client base functionality, including
  * the client logic and communication interface.
@@ -59,6 +61,9 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
 
   /** The id. */
   private final long id = LlAddressUtility.getRandomClientId();
+
+  /** The port on which this client's measures would be exposed to Prometheus.*/
+  private static final int PROMETHEUS_MEASURES_PORT = 7979;
 
   /** The logger. */
   private static Logger logger = LogManager.getLogger("LlClient");
@@ -72,21 +77,22 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   /** The state. */
   private ELlClientStates state = ELlClientStates.LABLINK_CLIENT_INTERFACE_STATE_NOTINSTANTIATED;
 
-  /** The rd server. */
+  /** The REsource Discovery Server. */
   private ResourceDiscoveryPeriodicServer rdServer;
 
-  /** The fsm. */
+  /** The FSM. */
   private LlClientFsm fsm;
 
   /** The name. */
   private String name;
 
-  /** The yellopages. */
+  /** The Yellow Pages for DP broadcast on LAN  */
   private MqttYellowPageForClient yellopages;
 
   /** The gen yellowpages. */
   private String genYellowpages;
 
+  /** The ypages client scope. */
   private String[] ypagesClientScope;
 
   /** The properties. */
@@ -122,6 +128,43 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   /** The show shell. */
   private boolean showShell = false;
 
+  /** The prometheus measures port. */
+  private int prometheusMeasuresPort = PROMETHEUS_MEASURES_PORT;
+
+  private HTTPServer prometheusMeasuresServer;
+  private boolean runPrometheusServer = false;
+  
+ /**
+   * Instantiates a new ll client.
+   *
+   * @param cname the name this client will be identified with
+   * @param hostSp the access name of the host implementation to use
+   * @param giveShell the flag to indicated if ishell should be shown
+   * @param isPseudo the is the flag indicating a pseudo client
+   * @param pmport the port number on which the Prometheus measures will be available
+   * @param scope scope
+   */
+  public LlClient(String cname, String hostSp, boolean giveShell, boolean isPseudo, int pmport, String... scope) {
+    if (isPseudo) {
+        logger.info(
+            "PseudoClient will be instantiated with name={} and will work with the PseudoHost={}.",
+            cname, hostSp);
+      } else {
+        logger.info(
+            "CustomClient will be instantiated with name={} and will work with the CustomHost={}.",
+            cname, hostSp);
+      }
+  
+      // this.clientCommInterfaceType = null;
+      this.setName(cname);
+      this.fsm = new LlClientFsm(this);
+      this.showShell = giveShell;
+      this.pseudoClient = isPseudo;
+      // this.pseudoHostType = null;
+      this.hostImplementation = hostSp;
+      this.prometheusMeasuresPort = pmport;
+}
+
   /**
    * Instantiates a new ll client.
    *
@@ -131,26 +174,8 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
    * @param isPseudo the is the flag indicating a pseudo client
    * @param scope scope
    */
-  public LlClient(String cname, String hostSp, boolean giveShell, boolean isPseudo,
-      String... scope) {
-
-    if (isPseudo) {
-      logger.info(
-          "PseudoClient will be instantiated with name={} and will work with the PseudoHost={}.",
-          cname, hostSp);
-    } else {
-      logger.info(
-          "CustomClient will be instantiated with name={} and will work with the CustomHost={}.",
-          cname, hostSp);
-    }
-
-    // this.clientCommInterfaceType = null;
-    this.setName(cname);
-    this.fsm = new LlClientFsm(this);
-    this.showShell = giveShell;
-    this.pseudoClient = isPseudo;
-    // this.pseudoHostType = null;
-    this.hostImplementation = hostSp;
+  public LlClient(String cname, String hostSp, boolean giveShell, boolean isPseudo, String... scope) {
+    this(cname, hostSp, giveShell, isPseudo, PROMETHEUS_MEASURES_PORT, scope);
   }
 
   /**
@@ -226,7 +251,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   //
   /////////////////////////////////////////////////////////////////////////////////
 
-  /** 
+  /**
+   *  
+   *
+   * @return the properties
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getProperties()
    */
   @Override
@@ -234,7 +262,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return this.properties;
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @return the services
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getServices()
    */
   @Override
@@ -242,7 +273,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return this.services;
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @return the adv properties
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getAdvProperties()
    */
   @Override
@@ -296,7 +330,13 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   //
   /////////////////////////////////////////////////////////////////////////////////
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
+   * @throws ConfigurationException the configuration exception
+   * @throws NoServicesInClientLogicException the no services in client logic exception
+   * @throws DataTypeNotSupportedException the data type not supported exception
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#init()
    */
   @Override
@@ -307,7 +347,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     this.fsm.transitionTo(LlClientFsm.EPossibleTransitionTriggers.INIT);
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#start()
    */
   @Override
@@ -317,7 +360,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   }
 
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#stop()
    */
   @Override
@@ -325,7 +371,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     // clientCommInterface.stop();
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#shutdown()
    */
   @Override
@@ -408,7 +457,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   // CommInterface Logic
   // ===========================================================================
 
-  /** 
+  /**
+   *  
+   *
+   * @return the state
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#getState()
    */
   @Override
@@ -416,7 +468,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return this.clientCommInterface.getState();
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @return the yellow page json
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getYellowPageJson()
    */
   @Override
@@ -424,7 +479,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return this.clientCommInterface.getYellowPageJson();
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @return the resource discovery meta
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#getResourceDiscoveryMeta()
    */
   @Override
@@ -440,7 +498,16 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   // FSM Logic (ILlClientFsmLogic)
   // ===========================================================================
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
+   * @throws NoSuchCommInterfaceException the no such comm interface exception
+   * @throws NoSuchPseudoHostException the no such pseudo host exception
+   * @throws NoSuchMethodException the no such method exception
+   * @throws IllegalAccessException the illegal access exception
+   * @throws InstantiationException the instantiation exception
+   * @throws InvocationTargetException the invocation target exception
    * @see at.ac.ait.lablink.core.client.ILlClientFsmLogic#onCreateSuccess()
    */
   @Override
@@ -459,7 +526,14 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     }
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ConfigurationException the configuration exception
+   * @throws ClientNotReadyException the client not ready exception
+   * @throws NoServicesInClientLogicException the no services in client logic exception
+   * @throws DataTypeNotSupportedException the data type not supported exception
+   * @throws PseudoHostException the pseudo host exception
    * @see at.ac.ait.lablink.core.client.ILlClientFsmLogic#onInitSuccess()
    */
   @Override
@@ -469,14 +543,20 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     logger.info("Client [{}] Initialized.", this.name);
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
+   * @throws PseudoHostException the pseudo host exception
+ * @throws IOException 
    * @see at.ac.ait.lablink.core.client.ILlClientFsmLogic#onStartSuccess()
    */
   @Override
-  public void onStartSuccess() throws ClientNotReadyException, PseudoHostException {
+  public void onStartSuccess() throws ClientNotReadyException, PseudoHostException, IOException {
     this.clientCommInterface.start();
     logger.info("Client [{}] started. The runtime Id is [{}].", this.name, this.getRuntimeId());
     this.runRd();
+    this.runPrometheusMeasures();
 
     if (this.showShell) {
       try {
@@ -487,16 +567,22 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     }
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @throws ClientNotReadyException the client not ready exception
    * @see at.ac.ait.lablink.core.client.ILlClientFsmLogic#onShutdownSuccess()
    */
   @Override
   public void onShutdownSuccess() throws ClientNotReadyException {
     this.clientCommInterface.shutdown();
-    logger.info("Client [{}] shuted down.", this.name);
+    logger.info("Client [{}] shutdown.", this.name);
   }
 
-  /** 
+  /**
+   *  
+   *
+   * @return the implemented services
    * @see at.ac.ait.lablink.core.client.ci.ILlClientCommInterface#getImplementedServices()
    */
   @Override
@@ -619,6 +705,14 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return setServiceValue(service.getName(), val);
   }
 
+  /**
+   * Sets the service value.
+   *
+   * @param service the service
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client exception
+   */
   public boolean setServiceValue(LlServicePseudo service, double val)
       throws ServiceIsNotRegisteredWithClientException {
     return setServiceValue(service.getName(), val);
@@ -638,6 +732,14 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return setServiceValue(service.getName(), val);
   }
 
+  /**
+   * Sets the service value.
+   *
+   * @param service the service
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client exception
+   */
   public boolean setServiceValue(LlServicePseudo service, long val)
       throws ServiceIsNotRegisteredWithClientException {
     return setServiceValue(service.getName(), val);
@@ -657,6 +759,14 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return setServiceValue(service.getName(), val);
   }
 
+  /**
+   * Sets the service value.
+   *
+   * @param service the service
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client exception
+   */
   public boolean setServiceValue(LlServicePseudo service, String val)
       throws ServiceIsNotRegisteredWithClientException {
     return setServiceValue(service.getName(), val);
@@ -676,6 +786,14 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return setServiceValue(service.getName(), val);
   }
 
+  /**
+   * Sets the service value.
+   *
+   * @param service the service
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client exception
+   */
   public boolean setServiceValue(LlServicePseudo service, boolean val)
       throws ServiceIsNotRegisteredWithClientException {
     return setServiceValue(service.getName(), val);
@@ -923,6 +1041,9 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   }
 
   /**
+   * Gets the pseudo services.
+   *
+   * @return the pseudo services
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getPseudoServices()
    */
   @Override
@@ -930,16 +1051,60 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     return this.pseudoServices;
   }
 
+  /**
+   * Sets the client logic.
+   *
+   * @param clogic the new client logic
+   */
   @Override
   public void setClientLogic(ILlClientLogic clogic) {
     return;
   }
 
+  /**
+   * Gets the host implementation SP.
+   *
+   * @return the host implementation SP
+   */
   @Override
   public String getHostImplementationSp() {
     return this.hostImplementation;
   }
 
+  
+  /**
+   * Adds the shutdown hook.
+   *
+   * @param hook the hook
+   */
+  public void addShutdownHook(Thread hook) {
+	  Runtime.getRuntime().addShutdownHook(hook);
+  }
+   
+  private void setRunPromethusMeasures() {
+	  this.services.forEach((k,v) -> {
+		  if(v.isExposedToPrometheus()) {
+			  this.runPrometheusServer = true;			  
+		  }
+	  });	  
+  }
+    
+  private void startPrometheusMeasures() throws IOException {	  
+	  this.prometheusMeasuresServer = new HTTPServer.Builder()
+		    .withPort(this.prometheusMeasuresPort)
+		    .build();
+	  logger.info("Prometheus measures are now availabe for scraping.");
+  }
+  
+  private void runPrometheusMeasures() throws IOException {
+	  this.setRunPromethusMeasures();
+	  if (this.runPrometheusServer) {
+		  logger.info("Attempting to start Prometheus measures on port {}", this.prometheusMeasuresPort);
+		  this.startPrometheusMeasures();
+	  } else {
+		  logger.info("No service is configured to be exposed for Prometheus. No measures will be exposed.");
+	  }
+  }
 }
 
 

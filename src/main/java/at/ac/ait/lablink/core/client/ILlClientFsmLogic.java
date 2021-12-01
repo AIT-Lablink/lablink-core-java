@@ -14,6 +14,7 @@ import at.ac.ait.lablink.core.client.ex.PseudoHostException;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public interface ILlClientFsmLogic {
@@ -30,7 +31,7 @@ public interface ILlClientFsmLogic {
       PseudoHostException;
 
   public void onStartSuccess() throws 
-      ClientNotReadyException, PseudoHostException;
+      ClientNotReadyException, PseudoHostException, IOException;
 
   public void onShutdownSuccess() throws 
       ClientNotReadyException;

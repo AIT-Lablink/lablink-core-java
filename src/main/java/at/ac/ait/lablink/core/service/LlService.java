@@ -110,12 +110,13 @@ public abstract class LlService<T> extends LlServiceBase {
           newVal);
 
       logger.debug("Notifying to the [{}] registered listener(s)...", this.notifiers.size());
-
-    //   for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
-    //       .entrySet()) {
-    //     entry.getValue().stateChanged(this, oldVal, newVal);
-    //   }
       this.notifiers.forEach((k,v)-> v.stateChanged(this, oldVal, newVal));
+
+        //   for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
+        //       .entrySet()) {
+        //     entry.getValue().stateChanged(this, oldVal, newVal);
+        //   }
+        
     }
   }
 

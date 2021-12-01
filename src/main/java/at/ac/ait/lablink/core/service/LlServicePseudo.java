@@ -67,7 +67,7 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
   }
 
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service psecudo.
    */
   public LlServicePseudo() {
     super();
