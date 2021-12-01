@@ -423,9 +423,9 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   }
 
   /**
-   * Gets the resource discovery json.
+   * Gets the resource discovery JSON.
    *
-   * @return the resource discovery json
+   * @return the resource discovery JSON
    */
   private String getResourceDiscoveryJson() {
     return Utility.getResourceDiscoveryMetaJson(this.getResourceDiscoveryMeta());
@@ -449,7 +449,7 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
       logger.error(ex.getMessage());
     }
 
-    logger.debug("Resource advertisement now running...");
+    logger.debug("Resource advertisement now running.");
 
   }
 
@@ -471,7 +471,7 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   /**
    *  
    *
-   * @return the yellow page json
+   * @return the yellow page JSON
    * @see at.ac.ait.lablink.core.client.ILlClientLogic#getYellowPageJson()
    */
   @Override
@@ -502,7 +502,7 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
    *  
    *
    * @throws ClientNotReadyException the client not ready exception
-   * @throws NoSuchCommInterfaceException the no such comm interface exception
+   * @throws NoSuchCommInterfaceException the no such communication interface exception
    * @throws NoSuchPseudoHostException the no such pseudo host exception
    * @throws NoSuchMethodException the no such method exception
    * @throws IllegalAccessException the illegal access exception
@@ -1102,7 +1102,7 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
 		  logger.info("Attempting to start Prometheus measures on port {}", this.prometheusMeasuresPort);
 		  this.startPrometheusMeasures();
 	  } else {
-		  logger.info("No service is configured to be exposed for Prometheus. No measures will be exposed.");
+		  logger.info("No service is configured to be exposed for Prometheus. Server will run and no measures will be exposed.");
 	  }
   }
 }
