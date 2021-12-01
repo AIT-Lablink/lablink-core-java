@@ -63,6 +63,10 @@ public abstract class LlService<T> extends LlServiceBase {
     super(name, readonly);
   }
 
+  public LlService(String name, boolean readonly, boolean exposedToPrometheus) {
+    super(name, readonly, exposedToPrometheus);
+  }
+
   // ********************************************************************** //
 
   /**
@@ -97,17 +101,21 @@ public abstract class LlService<T> extends LlServiceBase {
   }
 
   private void notifyStateChange(T oldVal, T newVal) {
+      
+    this.setGage();
+
     if (this.notifiers.size() > 0) {
 
       logger.debug("Service [{}]: state changed from [{}] to [{}]!", this.getName(), oldVal,
           newVal);
 
-      logger.debug("Notifying to the [{}] registered listener...", this.notifiers.size());
+      logger.debug("Notifying to the [{}] registered listener(s)...", this.notifiers.size());
 
-      for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
-          .entrySet()) {
-        entry.getValue().stateChanged(this, oldVal, newVal);
-      }
+    //   for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
+    //       .entrySet()) {
+    //     entry.getValue().stateChanged(this, oldVal, newVal);
+    //   }
+      this.notifiers.forEach((k,v)-> v.stateChanged(this, oldVal, newVal));
     }
   }
 

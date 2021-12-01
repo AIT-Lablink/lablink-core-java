@@ -10,20 +10,29 @@ public abstract class LlServiceLong extends LlService<Long> {
   public LlServiceLong() {
     super();
     setCurState(0L);
+    this.exposeToPrometheus = true;
   }
 
   public LlServiceLong(String name) {
     super(name);
     setCurState(0L);
+    this.exposeToPrometheus = true;
   }
 
   public LlServiceLong(String name, boolean readonly) {
     super(name, readonly);
     setCurState(0L);
+    this.exposeToPrometheus = true;
   }
 
   public LlServiceLong(boolean readonly) {
     super(readonly);
     setCurState(0L);
+    this.exposeToPrometheus = true;
+  }
+
+  @Override
+  protected void setGage() {
+      this.serviceGage.set(this.getCurState());
   }
 }

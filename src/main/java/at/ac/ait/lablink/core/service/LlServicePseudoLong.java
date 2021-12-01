@@ -24,4 +24,9 @@ public class LlServicePseudoLong extends LlServicePseudo<Long> {
     super(readonly);
   }
 
+  @Override
+  protected void setGage() {
+      this.serviceGage.set(this.get());
+  }
+
 }

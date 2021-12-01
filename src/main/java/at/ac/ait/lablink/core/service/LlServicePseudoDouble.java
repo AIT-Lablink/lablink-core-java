@@ -27,4 +27,8 @@ public class LlServicePseudoDouble extends LlServicePseudo<Double> {
     this.set(0.0);
   }
 
+  @Override
+  protected void setGage() {
+      this.serviceGage.set(this.get());
+  }
 }

@@ -9,6 +9,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import io.prometheus.client.Gauge;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,10 @@ public abstract class LlServiceBase implements Cloneable {
 
   /** The read-only flag. */
   protected boolean readOnly = false;
+  protected boolean exposeToPrometheus = false;
 
+  protected Gauge serviceGage;
+  
   /**
    * Instantiates a new instance with random alpha-numeric 
    * name and read-only flag set to {@code false}.
@@ -40,10 +45,14 @@ public abstract class LlServiceBase implements Cloneable {
    * @param readonly read-only flag
    */
   public LlServiceBase(String name, boolean readonly) {
+    this(name, readonly, true);
+  }
+  
+  public LlServiceBase(String name, boolean readonly, boolean exposedToPrometheus) {
     this.setName(name);
     this.setReadOnly(readonly);
-    logger.debug("Service [{}] created with access [{}].", name,
-        (readonly ? "READONLY" : "READ/WRITE"));
+    this.exposeToPrometheus = exposedToPrometheus;
+    serviceGage =  Gauge.build().name(name).register();
   }
 
   /**
@@ -92,7 +101,7 @@ public abstract class LlServiceBase implements Cloneable {
   }
 
   /**
-   * Sets the read-only falg.
+   * Sets the read-only flag.
    *
    * @param readOnly read-only flag
    */
@@ -151,5 +160,13 @@ public abstract class LlServiceBase implements Cloneable {
   public Object duplicate() throws CloneNotSupportedException {
     LlServiceBase base = (LlServiceBase) super.clone();
     return base;
+  }
+
+  public boolean isExposedToPrometheus() {
+      return this.exposeToPrometheus;
+  }
+
+  protected void setGage() {
+
   }
 }
