@@ -3,9 +3,10 @@
 // Distributed under the terms of the Modified BSD License.
 //
 
-package at.ac.ait.lablink.core.service.datapoint.payloads;
+package at.ac.ait.lablink.core.services.datapoint.payloads;
 
 import at.ac.ait.lablink.core.connection.encoding.encodables.PayloadBaseTest;
+import at.ac.ait.lablink.core.service.datapoint.payloads.StringValue;
 
 import org.junit.Before;
 

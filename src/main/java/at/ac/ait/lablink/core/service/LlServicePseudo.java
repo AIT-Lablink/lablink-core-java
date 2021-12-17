@@ -88,7 +88,7 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
   }
 
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service pseudo.
    *
    * @param name the name
    */
@@ -97,7 +97,7 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
   }
 
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service pseudo.
    *
    * @param readonly the readonly
    */
@@ -105,6 +105,10 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
     super(readonly);
   }
 
+  public LlServicePseudo(boolean readonly, boolean exposedToPrometheus) {
+	    super(readonly, exposedToPrometheus);
+	  }
+  
   /**
    * Gets the service data type class.
    *
