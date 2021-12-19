@@ -52,7 +52,7 @@ public abstract class LlServiceBase implements Cloneable {
 		this.setName(name);
 		this.setReadOnly(readonly);
 		this.exposeToPrometheus = exposedToPrometheus;
-		serviceGage = Gauge.build().namespace("lablinksim").name(name).help(name).register();
+		serviceGage = Gauge.build().namespace("ait-lablink").name(name).help(name).register();
 	}
 
 	/**
