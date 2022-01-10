@@ -6,7 +6,7 @@
 
   <groupId>at.ac.ait.lablink</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <name>AIT Lablink Core</name>
   <description>Java implementation of AIT Lablink's core application library.</description>
   <url>https://github.com/ait-lablink/lablink-core-java</url>
@@ -171,7 +171,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
+        <version>3.2.0</version>
         <configuration>
           <show>private</show>
           <docfilessubdirs>true</docfilessubdirs>
@@ -283,7 +283,8 @@
   <dependencies>
 
     <!-- Logging -->
-    <dependency>
+    
+<!--    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.25</version>
@@ -298,10 +299,42 @@
       <artifactId>log4j-api</artifactId>
       <version>2.7</version>
     </dependency>
+
+	<dependency>
+	  <groupId>org.apache.logging.log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>2.16.0</version>
+	  <type>pom</type>
+	</dependency>
+
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
       <version>2.7</version>
+    </dependency>  -->
+
+   <!-- Logging -->
+   <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.8.2</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.7</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.7</version>
     </dependency>
 
     <!-- MQTT -->
@@ -384,6 +417,33 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- PROMETHEUS INSTRUMENTATION DEPENDENCIES BEGIN -->
+    <!-- The client -->
+    <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient</artifactId>
+        <version>0.12.0</version>
+    </dependency>
+    <!-- Hotspot JVM metrics-->
+    <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient_hotspot</artifactId>
+        <version>0.12.0</version>
+    </dependency>
+    <!-- Exposition HTTPServer-->
+    <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient_httpserver</artifactId>
+        <version>0.12.0</version>
+    </dependency>
+    <!-- Pushgateway exposition-->
+    <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient_pushgateway</artifactId>
+        <version>0.12.0</version>
+    </dependency>
+    <!-- PROMETHEUS INSTRUMENTATION DEPENDENCIES END -->
 
     <dependency>
       <groupId>org.hamcrest</groupId>

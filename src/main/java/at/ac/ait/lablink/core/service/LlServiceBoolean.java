@@ -14,17 +14,17 @@ public abstract class LlServiceBoolean extends LlService<Boolean> {
 
   public LlServiceBoolean(String name) {
     super(name);
-    setCurState(false);
+    setCurState(false);    
   }
 
   public LlServiceBoolean(String name, boolean readonly) {
     super(name, readonly);
-    setCurState(false);
+    setCurState(false);    
   }
 
   public LlServiceBoolean(boolean readonly) {
     super(readonly);
-    setCurState(false);
+    setCurState(false);    
   }
 
 }

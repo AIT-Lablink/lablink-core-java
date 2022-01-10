@@ -9,17 +9,17 @@ public abstract class LlServiceString extends LlService<String> {
 
   public LlServiceString() {
     super();
-    setCurState("");
+    setCurState("");    
   }
 
   public LlServiceString(String name) {
     super(name);
-    setCurState("");
+    setCurState("");    
   }
 
   public LlServiceString(String name, boolean readonly) {
     super(name, readonly);
-    setCurState("");
+    setCurState("");    
   }
 
 }

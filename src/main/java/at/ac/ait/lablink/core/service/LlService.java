@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+// TODO: Auto-generated Javadoc
 /**
  * Abstract class extending the Lablink service base class.
  *
@@ -19,6 +20,7 @@ public abstract class LlService<T> extends LlServiceBase {
   /** The current state value of the service. */
   private T curState;
 
+  /** The notifiers. */
   protected Map<Integer, IServiceStateChangeNotifier<LlService, T>> notifiers =
       new HashMap<Integer, IServiceStateChangeNotifier<LlService, T>>();
 
@@ -43,6 +45,16 @@ public abstract class LlService<T> extends LlServiceBase {
   }
 
   /**
+   * Instantiates a new ll service.
+   *
+   * @param readonly the readonly
+   * @param exposedToPrometheus the exposed to prometheus
+   */
+  public LlService(boolean readonly, boolean exposedToPrometheus) {
+	    super(readonly, exposedToPrometheus);
+	  }
+  
+  /**
    * Instantiates a new Lablink service with the name provided. The resulting instance will be
    * read/write enabled.
    *
@@ -61,6 +73,17 @@ public abstract class LlService<T> extends LlServiceBase {
    */
   public LlService(String name, boolean readonly) {
     super(name, readonly);
+  }
+
+  /**
+   * Instantiates a new ll service.
+   *
+   * @param name the name
+   * @param readonly the readonly
+   * @param exposedToPrometheus the exposed to prometheus
+   */
+  public LlService(String name, boolean readonly, boolean exposedToPrometheus) {
+    super(name, readonly, exposedToPrometheus);
   }
 
   // ********************************************************************** //
@@ -96,18 +119,29 @@ public abstract class LlService<T> extends LlServiceBase {
     return curState;
   }
 
+  /**
+   * Notify state change.
+   *
+   * @param oldVal the old val
+   * @param newVal the new val
+   */
   private void notifyStateChange(T oldVal, T newVal) {
+      
+    this.setGage();
+
     if (this.notifiers.size() > 0) {
 
       logger.debug("Service [{}]: state changed from [{}] to [{}]!", this.getName(), oldVal,
           newVal);
 
-      logger.debug("Notifying to the [{}] registered listener...", this.notifiers.size());
+      logger.debug("Notifying to the [{}] registered listener(s)...", this.notifiers.size());
+      this.notifiers.forEach((k,v)-> v.stateChanged(this, oldVal, newVal));
 
-      for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
-          .entrySet()) {
-        entry.getValue().stateChanged(this, oldVal, newVal);
-      }
+        //   for (Entry<Integer, IServiceStateChangeNotifier<LlService, T>> entry : this.notifiers
+        //       .entrySet()) {
+        //     entry.getValue().stateChanged(this, oldVal, newVal);
+        //   }
+        
     }
   }
 
@@ -137,6 +171,11 @@ public abstract class LlService<T> extends LlServiceBase {
    */
   public abstract boolean set(T newval);
 
+  /**
+   * Adds the state change notifier.
+   *
+   * @param notifier the notifier
+   */
   public void addStateChangeNotifier(IServiceStateChangeNotifier<LlService, T> notifier) {
     this.notifiers.put(this.notifiers.size() + 1, notifier);
     logger.debug("Another notifier added for service [{}].", this.getName());

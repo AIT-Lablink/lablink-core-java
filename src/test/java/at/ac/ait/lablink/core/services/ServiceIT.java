@@ -3,7 +3,7 @@
 // Distributed under the terms of the Modified BSD License.
 //
 
-package at.ac.ait.lablink.core.service;
+package at.ac.ait.lablink.core.services;
 
 import static org.junit.Assert.fail;
 

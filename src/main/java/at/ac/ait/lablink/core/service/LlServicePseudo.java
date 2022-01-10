@@ -49,23 +49,25 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
   }
 
   private void notifyStateChange(T oldVal, T newVal) {
+      
     if (this.notifiers.size() > 0) {
 
       logger.debug("Service [{}]: state changed from [{}] to [{}]!", this.getName(), oldVal,
           newVal);
 
-      logger.debug("Notifying to the [{}] registered listener...", this.getName(),
-          this.notifiers.size());
+      logger.debug("Notifying to the [{}] registered listener...", this.getName(), this.notifiers.size());
+        
+      this.notifiers.forEach((k,v)-> v.stateChanged(this, oldVal, newVal));
 
-      for (Entry<Integer, IServiceStateChangeNotifier<LlServicePseudo, T>> entry : this.notifiers
-          .entrySet()) {
-        entry.getValue().stateChanged(this, oldVal, newVal);
-      }
+        //   for (Entry<Integer, IServiceStateChangeNotifier<LlServicePseudo, T>> entry : this.notifiers
+        //       .entrySet()) {
+        //     entry.getValue().stateChanged(this, oldVal, newVal);
+        //   }
     }
   }
 
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service psecudo.
    */
   public LlServicePseudo() {
     super();
@@ -81,8 +83,12 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
     super(name, readonly);
   }
 
+  public LlServicePseudo(String name, boolean readonly, boolean exposedToPrometheus) {
+    super(name, readonly, exposedToPrometheus);
+  }
+
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service pseudo.
    *
    * @param name the name
    */
@@ -91,7 +97,7 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
   }
 
   /**
-   * Instantiates a new ll service pscudo.
+   * Instantiates a new ll service pseudo.
    *
    * @param readonly the readonly
    */
@@ -99,6 +105,10 @@ public abstract class LlServicePseudo<T> extends LlServiceBase {
     super(readonly);
   }
 
+  public LlServicePseudo(boolean readonly, boolean exposedToPrometheus) {
+	    super(readonly, exposedToPrometheus);
+	  }
+  
   /**
    * Gets the service data type class.
    *
