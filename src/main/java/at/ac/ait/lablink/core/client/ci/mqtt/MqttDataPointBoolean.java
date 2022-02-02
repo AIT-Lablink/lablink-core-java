@@ -12,7 +12,7 @@ import at.ac.ait.lablink.core.service.LlServiceBoolean;
 import at.ac.ait.lablink.core.service.datapoint.IDataPoint;
 import at.ac.ait.lablink.core.service.datapoint.IDataPointNotifier;
 import at.ac.ait.lablink.core.service.datapoint.IDataPointService;
-import at.ac.ait.lablink.core.service.datapoint.impl.BooleanReadonlyDataPoint;
+import at.ac.ait.lablink.core.service.datapoint.impl.BooleanDataPoint;
 import at.ac.ait.lablink.core.service.datapoint.payloads.ISimpleValue;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +30,7 @@ public class MqttDataPointBoolean implements IMqttDataPoint, IImplementedService
   private static final Logger logger = LogManager.getLogger("MqttDataPointBoolean");
 
   /** The data point. */
-  private BooleanReadonlyDataPoint dataPoint;
+  private BooleanDataPoint dataPoint;
   private MqttYellowPageForDataPoint yellowpage;
 
   /** The service. */
@@ -72,7 +72,7 @@ public class MqttDataPointBoolean implements IMqttDataPoint, IImplementedService
    */
   private void createDataPoint(String dpidentifier, String dpdesc, String dpname, String dpunit) {
 
-    dataPoint = new BooleanReadonlyDataPoint(Arrays.asList(dpname, dpidentifier), dpdesc, dpunit);
+    dataPoint = new BooleanDataPoint(Arrays.asList(dpname, dpidentifier), dpdesc, dpunit);
 
     dataPoint.setNotifier(new IDataPointNotifier<Boolean>() {
       @Override
