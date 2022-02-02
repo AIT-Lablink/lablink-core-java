@@ -5,8 +5,8 @@
 
 package at.ac.ait.lablink.core.connection.encoding.encodables;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
 import at.ac.ait.lablink.core.connection.encoding.IEncodable;
@@ -17,15 +17,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
  * Unit Tests for abstract Payload class.
  */
 public class PayloadImplTest {
-
-  @Rule
-  public final ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void getClassType_WithStaticMethods() throws Exception {
@@ -40,15 +38,13 @@ public class PayloadImplTest {
 
   @Test
   public void getClassType_WithoutStaticMethods() throws Exception {
-
     Class<? extends IEncodable> encodableClass = PayloadImplementationWithoutStaticMethods.class;
 
-    thrown.expectCause(isA(IllegalStateException.class));
-
     Method method = encodableClass.getMethod("getClassType");
-    String classType = (String) method.invoke(null);
+    Exception exception =
+        assertThrows(InvocationTargetException.class, () -> method.invoke(null));
 
-    assertEquals("PayloadImplementationWithoutStaticMethods", classType);
+    assertEquals(IllegalStateException.class, exception.getCause().getClass());
   }
 
   @Test
@@ -67,13 +63,11 @@ public class PayloadImplTest {
 
     Class<? extends IEncodable> encodableClass = PayloadImplementationWithoutStaticMethods.class;
 
-    thrown.expectCause(isA(IllegalStateException.class));
-
     Method method = encodableClass.getMethod("getEncodableFactory");
-    IEncodableFactory factory = (IEncodableFactory) method.invoke(null);
+    Exception exception = 
+        assertThrows(InvocationTargetException.class, () -> method.invoke(null));
 
-    assertEquals("PayloadImplementationWithoutStaticMethods",
-        factory.createEncodableObject().getType());
+    assertEquals(IllegalStateException.class, exception.getCause().getClass());
   }
 }
 

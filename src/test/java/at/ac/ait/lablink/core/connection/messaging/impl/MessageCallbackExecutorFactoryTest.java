@@ -6,8 +6,7 @@
 package at.ac.ait.lablink.core.connection.messaging.impl;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
@@ -45,7 +44,7 @@ public class MessageCallbackExecutorFactoryTest {
   public void createExecutor_returnNewElement_test() throws Exception {
     cut = new MessageCallbackExecutorFactory(cbMock);
     CallbackExecutor exe = cut.createCallbackExecutor(mock(IEncodable.class),mock(List.class));
-    assertThat(exe, instanceOf(MessageCallbackExecutor.class));
+    assertEquals(exe.getClass(), MessageCallbackExecutor.class);
   }
 
   @Test

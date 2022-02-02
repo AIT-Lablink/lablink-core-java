@@ -5,8 +5,8 @@
 
 package at.ac.ait.lablink.core.connection.encoding.encodables;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import at.ac.ait.lablink.core.connection.encoding.IDecoder;
 import at.ac.ait.lablink.core.connection.encoding.IEncodable;
@@ -15,16 +15,14 @@ import at.ac.ait.lablink.core.connection.encoding.IEncoder;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
  * Unit test for abstract header class implementation.
  */
 public class HeaderImplTest {
-
-  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void getClassType_WithStaticMethods() throws Exception {
@@ -39,15 +37,13 @@ public class HeaderImplTest {
 
   @Test
   public void getClassType_WithoutStaticMethods() throws Exception {
-
     Class<? extends IEncodable> encodableClass = HeaderImplementationWithoutStaticMethods.class;
 
-    thrown.expectCause(isA(IllegalStateException.class));
-
     Method method = encodableClass.getMethod("getClassType");
-    String classType = (String) method.invoke(null);
+    Exception exception =
+        assertThrows(InvocationTargetException.class, () -> method.invoke(null));
 
-    assertEquals("HeaderImplementationWithoutStaticMethods", classType);
+    assertEquals(IllegalStateException.class, exception.getCause().getClass());
   }
 
   @Test
@@ -63,16 +59,13 @@ public class HeaderImplTest {
 
   @Test
   public void getEncodableFactory_WithoutStaticMethods() throws Exception {
-
     Class<? extends IEncodable> encodableClass = HeaderImplementationWithoutStaticMethods.class;
 
-    thrown.expectCause(isA(IllegalStateException.class));
-
     Method method = encodableClass.getMethod("getEncodableFactory");
-    IEncodableFactory factory = (IEncodableFactory) method.invoke(null);
+    Exception exception =
+        assertThrows(InvocationTargetException.class, () -> method.invoke(null));
 
-    assertEquals("HeaderImplementationWithoutStaticMethods",
-        factory.createEncodableObject().getType());
+    assertEquals(IllegalStateException.class, exception.getCause().getClass());
   }
 }
 

@@ -6,8 +6,7 @@
 package at.ac.ait.lablink.core.connection.rpc.reply.impl;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import at.ac.ait.lablink.core.connection.dispatching.CallbackExecutor;
@@ -45,7 +44,7 @@ public class RpcReplyCallbackExecutorFactoryTest {
   public void createExecutor_returnNewElement_test() throws Exception {
     cut = new RpcReplyCallbackExecutorFactory(cbMock);
     CallbackExecutor exe = cut.createCallbackExecutor(mock(IEncodable.class),mock(List.class));
-    assertThat(exe, instanceOf(RpcReplyCallbackExecutor.class));
+    assertEquals(exe.getClass(), RpcReplyCallbackExecutor.class);
   }
 
   @Test

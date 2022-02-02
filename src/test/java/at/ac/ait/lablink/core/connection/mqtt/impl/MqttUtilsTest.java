@@ -6,6 +6,7 @@
 package at.ac.ait.lablink.core.connection.mqtt.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import at.ac.ait.lablink.core.ex.LlCoreRuntimeException;
 
@@ -13,9 +14,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import junitparams.naming.TestCaseName;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -29,8 +28,6 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 @RunWith(JUnitParamsRunner.class)
 public class MqttUtilsTest {
-
-  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void convertStringSubscriptionsToMqttTopic_ListOfList_test() {
@@ -77,10 +74,10 @@ public class MqttUtilsTest {
   public void validateMqttSubscription_InputString_test(String subscription,
                                             Class<? extends Exception> expectedException) {
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateMqttSubscription(subscription));
+    } else {
+      MqttUtils.validateMqttSubscription(subscription);
     }
-
-    MqttUtils.validateMqttSubscription(subscription);
   }
 
   @Test
@@ -88,14 +85,13 @@ public class MqttUtilsTest {
   @TestCaseName("MqttTopic('{0}') validation throws {1}")
   public void validateTopicSubscription_InputList_test(String topic,
                                              Class<? extends Exception> expectedException) {
-
     List<String> splitTopic = Arrays.asList(topic.split("/"));
 
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateMqttSubscription(splitTopic));
+    } else {
+      MqttUtils.validateMqttSubscription(splitTopic);
     }
-
-    MqttUtils.validateMqttSubscription(splitTopic);
   }
 
   @Test
@@ -106,10 +102,10 @@ public class MqttUtilsTest {
       Class<? extends Exception> expectedException
   ) {
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateMqttTopic(topic));
+    } else {
+      MqttUtils.validateMqttTopic(topic);
     }
-
-    MqttUtils.validateMqttTopic(topic);
   }
 
   @Test
@@ -117,14 +113,13 @@ public class MqttUtilsTest {
   @TestCaseName("MqttTopic('{0}') validation throws {1}")
   public void validateMqttTopic_InputList_test(String topic,
                                         Class<? extends Exception> expectedException) {
-
     List<String> splitTopic = Arrays.asList(topic.split("/"));
 
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateMqttTopic(splitTopic));
+    } else {
+      MqttUtils.validateMqttTopic(splitTopic);
     }
-
-    MqttUtils.validateMqttTopic(splitTopic);
   }
 
   @Test
@@ -132,12 +127,11 @@ public class MqttUtilsTest {
   @TestCaseName("topicElement('{0}') validation throws {1}")
   public void validateTopicElement_test(String topicElement,
                                         Class<? extends Exception> expectedException) {
-
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateTopicElement(topicElement));
+    } else {
+      MqttUtils.validateTopicElement(topicElement);
     }
-
-    MqttUtils.validateTopicElement(topicElement);
   }
 
   @Test
@@ -145,12 +139,11 @@ public class MqttUtilsTest {
   @TestCaseName("firstTopicElement('{0}') validation throws {1}")
   public void validateFirstTopicElement_test(String topicElement,
                                              Class<? extends Exception> expectedException) {
-
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, () -> MqttUtils.validateFirstTopicElement(topicElement));
+    } else {
+      MqttUtils.validateFirstTopicElement(topicElement);
     }
-
-    MqttUtils.validateFirstTopicElement(topicElement);
   }
 
   @Test
@@ -158,12 +151,12 @@ public class MqttUtilsTest {
   @TestCaseName("topicElement('{0}') validation throws {1}")
   public void validateSubscriptionTopicElement_test(String topicElement,
                                                     Class<? extends Exception> expectedException) {
-
     if (expectedException != null) {
-      thrown.expect(expectedException);
+      assertThrows(expectedException, 
+          () -> MqttUtils.validateSubscriptionTopicElement(topicElement));
+    } else {
+      MqttUtils.validateSubscriptionTopicElement(topicElement);
     }
-
-    MqttUtils.validateSubscriptionTopicElement(topicElement);
   }
 
   /* Objects for parametrized tests */

@@ -18,6 +18,7 @@ import java.io.IOException;
  *
  * <p>Only edit this file if you really know what you are doing!!!
  */
+@SuppressWarnings("deprecation")
 public final class LlJoinLeaveMessage {
 
   /**

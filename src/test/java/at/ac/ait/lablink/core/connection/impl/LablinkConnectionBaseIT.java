@@ -913,7 +913,7 @@ public abstract class LablinkConnectionBaseIT {
         dest =
         RpcDestination.getBuilder(RpcDestination.ERpcDestinationChooser.SEND_TO_ALL).build();
     requester.sendRequest(dest, new StatusMessage(StatusMessage.StatusCode.OK));
-    Thread.sleep(300);
+    Thread.sleep(1500);
     assertTrue("An Response should be received", callback.response);
   }
 
