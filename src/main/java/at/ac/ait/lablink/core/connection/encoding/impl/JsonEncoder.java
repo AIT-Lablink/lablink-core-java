@@ -8,6 +8,7 @@ package at.ac.ait.lablink.core.connection.encoding.impl;
 import at.ac.ait.lablink.core.connection.encoding.EncoderBase;
 import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreEncoderRuntimeException;
+import at.ac.ait.lablink.core.service.types.Complex;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
@@ -128,7 +129,6 @@ public class JsonEncoder extends EncoderBase {
 
   @Override
   public void putString(String key, String value) {
-
     logger.trace("Add string to JSON encoder: {} ({})",key, value);
     checkJsonObjectKey(key);
     checkValueIsNull(value);
@@ -202,6 +202,18 @@ public class JsonEncoder extends EncoderBase {
 
     String blob = Base64.encodeBase64String(value);
     actEncoderObject.add(key, blob);
+  }
+
+  @Override
+  public void putComplex(String key, Complex value) {
+    logger.trace("Add complex number to JSON encoder: {}",key);
+    checkJsonObjectKey(key);
+    checkValueIsNull(value.re());
+    checkValueIsNull(value.im());
+    JsonObject actEncoderObject = (JsonObject) encoderStack.getFirst();
+
+    actEncoderObject.add(key + "_re", value.re());
+    actEncoderObject.add(key + "_im", value.im());
   }
 
   @Override

@@ -5,6 +5,8 @@
 
 package at.ac.ait.lablink.core.connection.encoding;
 
+import at.ac.ait.lablink.core.service.types.Complex;
+
 import java.util.List;
 
 /**
@@ -83,6 +85,14 @@ public interface IEncoder {
    * @param value to be added
    */
   void putBlob(String key, byte[] value);
+
+  /**
+   * Put a complex number to the encoder.
+   *
+   * @param key   for the given value
+   * @param value to be added
+   */
+  void putComplex(String key, Complex value);
 
   /**
    * Put an {@link IEncodable} object to the encoder.

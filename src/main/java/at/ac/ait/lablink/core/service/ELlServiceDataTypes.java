@@ -22,6 +22,9 @@ public enum ELlServiceDataTypes {
   /** The service datatype boolean. */
   SERVICE_DATATYPE_BOOLEAN("Boolean"),
 
+  /** The service datatype complex. */
+  SERVICE_DATATYPE_COMPLEX("Complex"),
+
   /** The service datatype object. */
   SERVICE_DATATYPE_OBJECT("Object");
 

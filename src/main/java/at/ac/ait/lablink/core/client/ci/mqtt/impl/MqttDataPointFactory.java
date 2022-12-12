@@ -8,6 +8,8 @@ package at.ac.ait.lablink.core.client.ci.mqtt.impl;
 import at.ac.ait.lablink.core.client.ci.mqtt.IMqttDataPoint;
 import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointBoolean;
 import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointBooleanReadOnly;
+import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointComplex;
+import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointComplexReadOnly;
 import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointDouble;
 import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointDoubleReadOnly;
 import at.ac.ait.lablink.core.client.ci.mqtt.MqttDataPointLong;
@@ -18,6 +20,7 @@ import at.ac.ait.lablink.core.client.ex.DataTypeNotSupportedException;
 import at.ac.ait.lablink.core.service.ELlServiceDataTypes;
 import at.ac.ait.lablink.core.service.LlService;
 import at.ac.ait.lablink.core.service.LlServiceBoolean;
+import at.ac.ait.lablink.core.service.LlServiceComplex;
 import at.ac.ait.lablink.core.service.LlServiceDouble;
 import at.ac.ait.lablink.core.service.LlServiceLong;
 import at.ac.ait.lablink.core.service.LlServiceString;
@@ -86,6 +89,17 @@ public class MqttDataPointFactory {
           datapoint = new MqttDataPointBoolean((LlServiceBoolean) forService);
           logger.debug("MQTT IDataPoint [{}] created for the service [{}].", "MqttDataPointBoolean",
               forService.getName());
+        }
+        break;
+      case SERVICE_DATATYPE_COMPLEX:
+        if (readonly) {
+          datapoint = new MqttDataPointComplexReadOnly((LlServiceComplex) forService);
+          logger.debug("MQTT IDataPoint [{}] created for the service [{}].",
+              "MqttDataPointComplexReadOnly", forService.getName());
+        } else {
+          datapoint = new MqttDataPointComplex((LlServiceComplex) forService);
+          logger.debug("MQTT IDataPoint [{}] created for the service [{}].", 
+              "MqttDataPointComplex", forService.getName());
         }
         break;
       default:

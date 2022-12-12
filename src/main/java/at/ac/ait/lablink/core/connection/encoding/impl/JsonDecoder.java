@@ -9,6 +9,7 @@ import at.ac.ait.lablink.core.connection.encoding.DecoderBase;
 import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreDecoderRuntimeException;
 import at.ac.ait.lablink.core.connection.ex.LlCoreEncoderRuntimeException;
+import at.ac.ait.lablink.core.service.types.Complex;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
@@ -242,6 +243,23 @@ public class JsonDecoder extends DecoderBase {
       String str = getLastJsonValue(key).asString();
       return Base64.decodeBase64(str);
     }
+  }
+
+  @Override
+  public Complex getComplex(String key) {
+    JsonValue reValue = getLastJsonValue(key + "_re");
+    if (reValue.isNull()) {
+      logger.warn("IEncodable Element '{}' is null ({})", key + "_re", reValue);
+      return new Complex(0., 0.);
+    }
+    
+    JsonValue imValue = getLastJsonValue(key + "_im");
+    if (imValue.isNull()) {
+      logger.warn("IEncodable Element '{}' is null ({})", key + "_im", imValue);
+      return new Complex(0., 0.);
+    }
+    
+    return new Complex(reValue.asDouble(), imValue.asDouble());
   }
 
   @Override

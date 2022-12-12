@@ -17,6 +17,7 @@ import at.ac.ait.lablink.core.connection.encoding.encodabletestsamples.Encodable
 import at.ac.ait.lablink.core.connection.encoding.encodabletestsamples.EncodableTestSample2;
 import at.ac.ait.lablink.core.connection.encoding.encodabletestsamples.EncoderTestEncodable;
 import at.ac.ait.lablink.core.connection.ex.LlCoreDecoderRuntimeException;
+import at.ac.ait.lablink.core.service.types.Complex;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
@@ -67,9 +68,11 @@ public class JsonDecoderTest {
         jsonString =
         "{\"TestString\":\"Hallo\",\"TestFloat\":12.234,\"TestDouble\":-32423.324,"
             + "\"TestBoolean\":true,\"TestInt\":15,\"TestLong\":22,\""
-            + "TestBlob\":\"VGVzdFN0cmluZw==\",\"TestString2\":\"Testing\""
+            + "TestBlob\":\"VGVzdFN0cmluZw==\",\"TestComplex_re\":3.1415,"
+            + "\"TestComplex_im\":2.7183,\"TestString2\":\"Testing\""
             + ",\"TestDouble2\":876.234,\"TestFloat2\":-1346.8442,\"TestLong2\":22,"
-            + "\"TestBoolean2\":false,\"TestInt2\":0,\"TestBlob2\":\"U2Vjb25kVGVzdA==\"}";
+            + "\"TestBoolean2\":false,\"TestInt2\":0,\"TestBlob2\":\"U2Vjb25kVGVzdA==\","
+            + "\"TestComplex2_re\":7.234,\"TestComplex2_im\":-4.098}";
 
     decoder.initDecoder(jsonString.getBytes());
 
@@ -83,9 +86,11 @@ public class JsonDecoderTest {
         jsonString =
         "{\"TestString\":\"Hallo\",\"TestFloat\":12.234,\"TestDouble\":-32423.324,"
             + "\"TestBoolean\":true,\"TestInt\":15,\"TestLong\":22,\""
-            + "TestBlob\":\"VGVzdFN0cmluZw==\",\"TestString2\":\"Testing\""
+            + "TestBlob\":\"VGVzdFN0cmluZw==\",\"TestComplex_re\":3.1415,"
+            + "\"TestComplex_im\":2.7183,\"TestString2\":\"Testing\""
             + ",\"TestDouble2\":876.234,\"TestFloat2\":-1346.8442,\"TestLong2\":22,"
-            + "\"TestBoolean2\":false,\"TestInt2\":0,\"TestBlob2\":\"U2Vjb25kVGVzdA==\"}";
+            + "\"TestBoolean2\":false,\"TestInt2\":0,\"TestBlob2\":\"U2Vjb25kVGVzdA==\","
+            + "\"TestComplex2_re\":7.234,\"TestComplex2_im\":-4.098}";
 
     decoder.initDecoder(jsonString.getBytes());
 
@@ -96,6 +101,7 @@ public class JsonDecoderTest {
     assertEquals(false, decoder.getBoolean("TestBoolean2"));
     assertEquals(0, decoder.getInt("TestInt2"));
     assertEquals("SecondTest", new String(decoder.getBlob("TestBlob2")));
+    assertEquals(true, (new Complex(7.234,-4.098)).equals(decoder.getComplex("TestComplex2")));
   }
 
   @Test
@@ -104,7 +110,7 @@ public class JsonDecoderTest {
         jsonString =
         "{\"TestString\":null,\"TestFloat\":null,\"TestDouble\":null,"
             + "\"TestBoolean\":null,\"TestInt\":null,\"TestLong\":null,\""
-            + "TestBlob\":null}";
+            + "TestBlob\":null,\"TestComplex_re\":null,\"TestComplex_im\":null}";
 
     decoder.initDecoder(jsonString.getBytes());
 
@@ -115,6 +121,7 @@ public class JsonDecoderTest {
     assertEquals(false, decoder.getBoolean("TestBoolean"));
     assertEquals(0, decoder.getInt("TestInt"));
     assertEquals("", new String(decoder.getBlob("TestBlob")));
+    assertEquals(true, (new Complex(0.,0.)).equals(decoder.getComplex("TestComplex")));
   }
 
   @Test

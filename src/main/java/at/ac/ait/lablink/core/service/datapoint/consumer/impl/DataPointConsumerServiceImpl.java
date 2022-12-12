@@ -17,6 +17,7 @@ import at.ac.ait.lablink.core.service.datapoint.consumer.EDataPointConsumerState
 import at.ac.ait.lablink.core.service.datapoint.consumer.IDataPointConsumerService;
 import at.ac.ait.lablink.core.service.datapoint.ex.DatapointServiceRuntimeException;
 import at.ac.ait.lablink.core.service.datapoint.payloads.BooleanValue;
+import at.ac.ait.lablink.core.service.datapoint.payloads.ComplexValue;
 import at.ac.ait.lablink.core.service.datapoint.payloads.DataPointProperties;
 import at.ac.ait.lablink.core.service.datapoint.payloads.DoubleValue;
 import at.ac.ait.lablink.core.service.datapoint.payloads.LongValue;
@@ -91,6 +92,7 @@ public class DataPointConsumerServiceImpl implements IDataPointConsumerService {
     lablinkConnection.registerEncodableFactory(LongValue.class);
     lablinkConnection.registerEncodableFactory(DoubleValue.class);
     lablinkConnection.registerEncodableFactory(BooleanValue.class);
+    lablinkConnection.registerEncodableFactory(ComplexValue.class);
 
     this.prefix = prefix;
   }

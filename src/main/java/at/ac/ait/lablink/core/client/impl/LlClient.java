@@ -34,6 +34,7 @@ import at.ac.ait.lablink.core.service.ELlServiceDataTypes;
 import at.ac.ait.lablink.core.service.IImplementedService;
 import at.ac.ait.lablink.core.service.LlService;
 import at.ac.ait.lablink.core.service.LlServicePseudo;
+import at.ac.ait.lablink.core.service.types.Complex;
 import at.ac.ait.lablink.core.utility.LlAddressUtility;
 import at.ac.ait.lablink.core.utility.Utility;
 
@@ -608,6 +609,26 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   /**
    * Sets the service value.
    *
+   * @param servicename the servicename
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client
+   *         exception
+   */
+  @SuppressWarnings( "unchecked" )
+  public boolean setServiceValue(String servicename, Complex val)
+      throws ServiceIsNotRegisteredWithClientException {
+
+    if (!this.isServiceExists(servicename)) {
+      throw new ServiceIsNotRegisteredWithClientException();
+    }
+
+    return clientCommInterface.getImplementedServices().get(servicename).setValue(val);
+  }
+
+  /**
+   * Sets the service value.
+   *
    * @param service the service
    * @param val the val
    * @return true, if successful
@@ -682,6 +703,25 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   }
 
   /**
+   * Sets the service value.
+   *
+   * @param service the service
+   * @param val the val
+   * @return true, if successful
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client
+   *         exception
+   */
+  public boolean setServiceValue(LlService service, Complex val)
+      throws ServiceIsNotRegisteredWithClientException {
+    return setServiceValue(service.getName(), val);
+  }
+
+  public boolean setServiceValue(LlServicePseudo service, Complex val)
+      throws ServiceIsNotRegisteredWithClientException {
+    return setServiceValue(service.getName(), val);
+  }
+
+  /**
    * Checks if is service exists.
    *
    * @param sname the sname
@@ -723,6 +763,39 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
   public Double getServiceValueDouble(LlService service)
       throws InvalidCastForServiceValueException {
     return getServiceValueDouble(service.getName());
+  }
+
+  /**
+   * Gets the service value double.
+   *
+   * @param service the service
+   * @return the service value complex number
+   * @throws InvalidCastForServiceValueException the invalid cast for service value exception
+   */
+  public Complex getServiceValueComplex(String service) throws InvalidCastForServiceValueException {
+    Complex curval = null;
+
+    try {
+      curval = (Complex) clientCommInterface.getImplementedServices().get(service).getValue();
+    } catch (Exception ex) {
+      logger.error(ex.getMessage());
+      throw new InvalidCastForServiceValueException();
+    }
+
+    return curval;
+  }
+
+
+  /**
+   * Gets the service value double.
+   *
+   * @param service the service
+   * @return the service value complex number
+   * @throws InvalidCastForServiceValueException the invalid cast for service value exception
+   */
+  public Complex getServiceValueComplex(LlService service)
+      throws InvalidCastForServiceValueException {
+    return getServiceValueComplex(service.getName());
   }
 
   /**
@@ -863,6 +936,13 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
       case SERVICE_DATATYPE_BOOLEAN:
         short bval = (short) (getServiceValueBoolean(sname).booleanValue() ? 1 : 0);
         bb.putShort(bval);
+        bb.rewind();
+        break;
+      case SERVICE_DATATYPE_COMPLEX:
+        bb = ByteBuffer.allocate(2 * Double.SIZE);
+        Complex cc = getServiceValueComplex(sname);
+        bb.putDouble(cc.re());
+        bb.putDouble(cc.im());
         bb.rewind();
         break;
       default:

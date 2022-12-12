@@ -5,6 +5,8 @@
 
 package at.ac.ait.lablink.core.connection.encoding;
 
+import at.ac.ait.lablink.core.service.types.Complex;
+
 import java.util.List;
 
 /**
@@ -81,6 +83,14 @@ public interface IDecoder {
    * @return value from the decoder
    */
   byte[] getBlob(String key);
+
+  /**
+   * Read a complex number from the decoder.
+   *
+   * @param key for the value to be read
+   * @return value from the decoder
+   */
+  Complex getComplex(String key);
 
   /**
    * Read a {@link IEncodable} from the decoder.

@@ -12,6 +12,7 @@ import at.ac.ait.lablink.core.connection.encoding.IDecoder;
 import at.ac.ait.lablink.core.connection.encoding.IEncodable;
 import at.ac.ait.lablink.core.connection.encoding.IEncodableFactory;
 import at.ac.ait.lablink.core.connection.encoding.IEncoder;
+import at.ac.ait.lablink.core.service.types.Complex;
 
 import org.junit.Test;
 
@@ -109,6 +110,14 @@ public abstract class EncodableBaseTest {
     }
 
     @Override
+    public void putComplex(String key, Complex value) {
+      encodingList.add(key + "_re");
+      elements.put(key,value.re());
+      encodingList.add(key + "_im");
+      elements.put(key,value.im());
+    }
+
+    @Override
     public void putBlob(String key, byte[] value) {
       encodingList.add(key);
       elements.put(key,value);
@@ -173,6 +182,13 @@ public abstract class EncodableBaseTest {
     public byte[] getBlob(String key) {
       decodingList.add(key);
       return new byte[0];
+    }
+
+    @Override
+    public Complex getComplex(String key) {
+      decodingList.add(key + "_re");
+      decodingList.add(key + "_im");
+      return new Complex(0., 0.);
     }
 
     @Override
