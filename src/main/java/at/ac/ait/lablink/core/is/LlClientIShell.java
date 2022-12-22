@@ -16,6 +16,7 @@ import at.ac.ait.lablink.core.service.ELlServiceProperties;
 import at.ac.ait.lablink.core.service.IImplementedService;
 import at.ac.ait.lablink.core.service.LlService;
 import at.ac.ait.lablink.core.service.LlServicePseudo;
+import at.ac.ait.lablink.core.service.types.Complex;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -286,6 +287,35 @@ public class LlClientIShell {
 
     if (this.client.isServiceExists(service)) {
       reply = (this.client.setServiceValue(service, val) ? "Success" : "Failed");
+    }
+
+    return reply;
+  }
+
+
+/**
+   * Sets the service val complex.
+   *
+   * @param service the service
+   * @param real real part
+   * @param imag imaginary part
+   * @return the string
+   * @throws ServiceIsNotRegisteredWithClientException the service is not registered with client
+   *         exception
+   */
+  @Command(description = "Set service value to a complex number.", abbrev = "svc",
+      name = "set-srvc-val-cpx")
+  public String setServiceValCpx(
+      @Param(name = "service-name", description = "Name of the service") String service,
+      @Param(name = "value-real", description = "real part (double value)") double real,
+      @Param(name = "value-imag", description = "imaginary part (double value)") double imag )
+      throws ServiceIsNotRegisteredWithClientException {
+
+    String reply = SERVICE_DOES_NOT_EXISTS;
+
+    if (this.client.isServiceExists(service)) {
+      reply = (this.client.setServiceValue(service, new Complex(real, imag) ) 
+          ? "Success" : "Failed");
     }
 
     return reply;
