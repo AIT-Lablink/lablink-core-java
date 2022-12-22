@@ -6,7 +6,7 @@
 
   <groupId>at.ac.ait.lablink</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <name>AIT Lablink Core</name>
   <description>Java implementation of AIT Lablink's core application library.</description>
   <url>https://github.com/ait-lablink/lablink-core-java</url>
