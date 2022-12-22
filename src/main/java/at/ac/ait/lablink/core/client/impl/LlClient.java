@@ -436,6 +436,10 @@ public final class LlClient implements ILlClientLogic, ILlClientCommInterface, I
     meta.setClientEncoding(Configuration.RESOURCE_DISCOVERY_ENCODING_USE);
     return meta;
   }
+  
+  public boolean isConnected() {
+    return this.clientCommInterface.isConnected();
+  }
 
   // ===========================================================================
   // FSM Logic (ILlClientFsmLogic)

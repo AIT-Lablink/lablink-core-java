@@ -103,4 +103,6 @@ public interface ILlClientCommInterface {
    */
   public void setClientLogic(ILlClientLogic clogic);
 
+  public boolean isConnected();
+
 }

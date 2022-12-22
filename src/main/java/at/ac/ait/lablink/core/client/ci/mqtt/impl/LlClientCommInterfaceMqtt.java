@@ -340,6 +340,12 @@ public class LlClientCommInterfaceMqtt implements ILlClientCommInterface {
     }
     return this.genYellowpage;
   }
+  
+  @Override
+  public boolean isConnected() {
+    return this.lablink.isConnected();
+  }
+
 
   /**
    * The Class MqttYellowPageDp.
