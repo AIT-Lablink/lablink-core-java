@@ -24,9 +24,9 @@ copyright = 'AIT Austrian Institute of Technology GmbH'
 author = 'AIT Lablink Development Team'
 
 # The short X.Y version
-version = '0.0.1'
+version = '0.0.4'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '0.0.4'
 
 
 # -- General configuration ---------------------------------------------------

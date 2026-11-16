@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 348" width="860" height="348" role="img" aria-labelledby="title desc">
+  <title id="title">Resource discovery</title>
+  <desc id="desc">An advertising client repeats a JSON advertisement and answers an ADVERTISE request. A discoverer receives both through onReply on the UDP multicast group.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1c1c1c"/>
+    </marker>
+    <style>
+      .paper { fill: #ffffff; stroke: #1c1c1c; stroke-width: 1.25; }
+      .frame { fill: #f4f6f8; stroke: #1c1c1c; stroke-width: 1.25; }
+      .title { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 650; fill: #1c1c1c; }
+      .sub { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #3d3d3d; }
+      .wire { fill: none; stroke: #1c1c1c; stroke-width: 1.25; }
+    </style>
+  </defs>
+
+  <rect class="frame" x="16" y="8" width="828" height="332"/>
+
+  <rect class="paper" x="36" y="28" width="250" height="260"/>
+  <text class="title" x="161" y="88" text-anchor="middle">Advertising client</text>
+  <text class="sub" x="161" y="116" text-anchor="middle">periodic server</text>
+  <text class="sub" x="161" y="196" text-anchor="middle">verb server</text>
+
+  <rect class="paper" x="574" y="28" width="250" height="260"/>
+  <text class="title" x="699" y="100" text-anchor="middle">Discoverer</text>
+  <text class="sub" x="699" y="128" text-anchor="middle">onReply</text>
+  <text class="sub" x="699" y="196" text-anchor="middle">ADVERTISE</text>
+
+  <line class="wire" x1="286" y1="100" x2="574" y2="100" marker-end="url(#arrow)"/>
+  <text class="sub" x="430" y="88" text-anchor="middle">repeated JSON</text>
+
+  <line class="wire" x1="574" y1="180" x2="286" y2="180" marker-end="url(#arrow)"/>
+  <text class="sub" x="430" y="168" text-anchor="middle">ADVERTISE</text>
+
+  <line class="wire" x1="286" y1="240" x2="574" y2="240" marker-end="url(#arrow)"/>
+  <text class="sub" x="430" y="228" text-anchor="middle">JSON reply</text>
+
+  <text class="sub" x="430" y="318" text-anchor="middle">UDP multicast 224.3.224.224:65432</text>
+</svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="860" height="280" role="img" aria-labelledby="title desc">
+  <title id="title">Remote call</title>
+  <desc id="desc">A caller sends a request to one callee. The callee answers with payloads, and the caller receives them in handleReply for the same request identifier.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1c1c1c"/>
+    </marker>
+    <style>
+      .paper { fill: #ffffff; stroke: #1c1c1c; stroke-width: 1.25; }
+      .frame { fill: #f4f6f8; stroke: #1c1c1c; stroke-width: 1.25; }
+      .title { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 650; fill: #1c1c1c; }
+      .sub { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #3d3d3d; }
+      .wire { fill: none; stroke: #1c1c1c; stroke-width: 1.25; }
+    </style>
+  </defs>
+
+  <rect class="frame" x="16" y="8" width="828" height="264"/>
+
+  <rect class="paper" x="36" y="40" width="240" height="200"/>
+  <text class="title" x="156" y="88" text-anchor="middle">Caller</text>
+  <text class="sub" x="156" y="116" text-anchor="middle">sendRequest</text>
+  <text class="sub" x="156" y="196" text-anchor="middle">handleReply</text>
+
+  <rect class="paper" x="584" y="40" width="240" height="200"/>
+  <text class="title" x="704" y="124" text-anchor="middle">Callee</text>
+  <text class="sub" x="704" y="152" text-anchor="middle">handleRequest</text>
+
+  <line class="wire" x1="276" y1="100" x2="584" y2="100" marker-end="url(#arrow)"/>
+  <text class="sub" x="430" y="88" text-anchor="middle">sendRequest(payload)</text>
+  <text class="sub" x="430" y="120" text-anchor="middle">returns a request id</text>
+
+  <line class="wire" x1="584" y1="180" x2="276" y2="180" marker-end="url(#arrow)"/>
+  <text class="sub" x="430" y="164" text-anchor="middle">reply payloads</text>
+  <text class="sub" x="430" y="200" text-anchor="middle">same request id</text>
+</svg>
