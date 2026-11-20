@@ -54,22 +54,6 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <repositories>
-
-    <!-- for moquette import -->
-    <repository>
-      <id>bintray</id>
-      <url>https://jcenter.bintray.com</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-
-  </repositories>
-
   <build>
 
     <resources>
@@ -171,7 +155,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
+        <version>3.12.0</version>
         <configuration>
           <show>private</show>
           <docfilessubdirs>true</docfilessubdirs>
@@ -242,7 +226,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.8.0</version>
         <executions>
           <execution>
             <!-- generate assembly containing all dependencies -->
@@ -417,7 +401,7 @@
     <dependency>
       <groupId>io.moquette</groupId>
       <artifactId>moquette-broker</artifactId>
-      <version>0.9</version>
+      <version>0.17</version>
       <scope>test</scope>
     </dependency>
 
