@@ -17,6 +17,8 @@ import at.ac.ait.lablink.core.connection.impl.PortUtils;
 import at.ac.ait.lablink.core.connection.mqtt.IMqttConnectionListener;
 import at.ac.ait.lablink.core.connection.mqtt.IMqttReceiverCallback;
 
+import io.moquette.broker.Server;
+import io.moquette.broker.config.MemoryConfig;
 import io.moquette.interception.AbstractInterceptHandler;
 import io.moquette.interception.InterceptHandler;
 import io.moquette.interception.messages.InterceptConnectMessage;
@@ -24,10 +26,10 @@ import io.moquette.interception.messages.InterceptDisconnectMessage;
 import io.moquette.interception.messages.InterceptPublishMessage;
 import io.moquette.interception.messages.InterceptSubscribeMessage;
 import io.moquette.interception.messages.InterceptUnsubscribeMessage;
-import io.moquette.parser.proto.messages.AbstractMessage;
-import io.moquette.parser.proto.messages.PublishMessage;
-import io.moquette.server.Server;
-import io.moquette.server.config.MemoryConfig;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.mqtt.MqttMessageBuilders;
+import io.netty.handler.codec.mqtt.MqttPublishMessage;
+import io.netty.handler.codec.mqtt.MqttQoS;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
@@ -40,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.BindException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -89,8 +91,7 @@ public class MqttClientSyncIT {
     mqttBrokerConf.setProperty("host", "localhost");
     mqttBrokerConf.setProperty("websocket_port", "8936");
     mqttBrokerConf.setProperty("allow_anonymous", "true");
-    mqttBrokerConf.setProperty("persistent_store",
-        System.getProperty("user.dir") + "/target/moquette_store.mapdb");
+    mqttBrokerConf.setProperty("persistence_enabled", "false");
 
     PortUtils.waitForAvailablePort(1883);
     PortUtils.waitForAvailablePort(8936);
@@ -305,7 +306,7 @@ public class MqttClientSyncIT {
       fail("Broker didn't received a message. Maybe a timing problem.");
     }
     assertEquals("Test/Hallo", lastPublishMsg.getTopicName());
-    assertEquals("Message", new String(lastPublishMsg.getPayload().array()));
+    assertEquals("Message", new String(mqttBrokerInterceptor.getLastPublishPayload()));
 
     mqttClient.disconnect();
   }
@@ -316,11 +317,12 @@ public class MqttClientSyncIT {
     mqttClient.connect();
     mqttClient.subscribe("Hallo/+/Test");
 
-    PublishMessage msg = new PublishMessage();
-    msg.setPayload(Charset.forName("ASCII").encode("TestString"));
-    msg.setTopicName("Hallo/Topic/Test");
-    msg.setQos(AbstractMessage.QOSType.LEAST_ONE);
-    mqttBroker.internalPublish(msg);
+    MqttPublishMessage msg = MqttMessageBuilders.publish()
+        .topicName("Hallo/Topic/Test")
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .payload(Unpooled.copiedBuffer("TestString", StandardCharsets.US_ASCII))
+        .build();
+    mqttBroker.internalPublish(msg, "test-publisher");
 
     assertEquals("Hallo/Topic/Test", mqttReceiver.getLastTopic());
     assertEquals("TestString", new String(mqttReceiver.getLastPayload()));
@@ -441,6 +443,7 @@ public class MqttClientSyncIT {
 
 
     private InterceptPublishMessage lastPublishMsg;
+    private byte[] lastPublishPayload;
     private InterceptConnectMessage lastConnectMsg;
     private InterceptDisconnectMessage lastDisconnectMsg;
     private InterceptSubscribeMessage lastSubscribeMsg;
@@ -448,14 +451,28 @@ public class MqttClientSyncIT {
 
 
     @Override
+    public String getID() {
+      return "MqttClientSyncIT";
+    }
+
+    @Override
+    public void onSessionLoopError(Throwable error) {
+      logger.debug("BrokerInterceptor: session loop error", error);
+    }
+
+    @Override
     public void onPublish(InterceptPublishMessage msg) {
+      byte[] payload = new byte[msg.getPayload().readableBytes()];
+      msg.getPayload().getBytes(msg.getPayload().readerIndex(), payload);
       logger.debug(
           "BrokerInterceptor: Received on topic: " + msg.getTopicName() + " content: " + new String(
-              msg.getPayload().array()));
+              payload));
       synchronized (syncPublish) {
         lastPublishMsg = msg;
+        lastPublishPayload = payload;
         syncPublish.notify();
       }
+      super.onPublish(msg);
     }
 
     @Override
@@ -512,6 +529,24 @@ public class MqttClientSyncIT {
       }
       returnMsg = lastPublishMsg;
       lastPublishMsg = null;
+      return returnMsg;
+    }
+
+    byte[] getLastPublishPayload() {
+      byte[] returnMsg;
+
+      synchronized (syncPublish) {
+        if (lastPublishPayload == null) {
+
+          try {
+            syncPublish.wait(2000);
+          } catch (InterruptedException ignored) {
+            // ignore this exception
+          }
+        }
+      }
+      returnMsg = lastPublishPayload;
+      lastPublishPayload = null;
       return returnMsg;
     }
 

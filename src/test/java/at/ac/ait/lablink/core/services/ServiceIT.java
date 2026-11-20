@@ -11,8 +11,8 @@ import at.ac.ait.lablink.core.connection.ILlConnection;
 import at.ac.ait.lablink.core.connection.impl.LlConnectionFactory;
 import at.ac.ait.lablink.core.connection.impl.PortUtils;
 
-import io.moquette.server.Server;
-import io.moquette.server.config.MemoryConfig;
+import io.moquette.broker.Server;
+import io.moquette.broker.config.MemoryConfig;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
@@ -64,8 +64,7 @@ public abstract class ServiceIT {
     mqttBrokerConf.setProperty("host", "localhost");
     mqttBrokerConf.setProperty("websocket_port", "8936");
     mqttBrokerConf.setProperty("allow_anonymous", "true");
-    mqttBrokerConf.setProperty("persistent_store",
-        System.getProperty("user.dir") + "/target/moquette_store.mapdb");
+    mqttBrokerConf.setProperty("persistence_enabled", "false");
 
     PortUtils.waitForAvailablePort(1883);
     PortUtils.waitForAvailablePort(8936);
